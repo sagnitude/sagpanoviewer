@@ -12,13 +12,13 @@ app.get("/", function (req, res) {
 
 app.get("/ids/:action", function(req, res){
     if(req.params.action == "listPofsOfMall.action"){
-        console.log("get: " + getListOfPofs());
+        console.log("get: " + getListOfPofs().s);
     }
-    res.send("response: " + getListOfPofs());
+    res.send("response: " + getListOfPofs().m);
 });
 
 function getListOfPofs(){
-    var result = "";;
+    var result = "";
     http.get("http://www.navior.cn:6603/ids/listPofsOfMall.action?mallId=823&operatorKey=FA07C1D5-800E-4065-8A40-7DD2D925C1A3", function(res){
         console.log("res got");
         console.log('STATUS: ' + res.statusCode);
@@ -27,8 +27,8 @@ function getListOfPofs(){
             console.log('BODY: ' + chunk);
             result.concat(chunk);
         });
-        return result;
     });
+    return JSON.parse(result);
 }
 
 app.listen(8997);
