@@ -12,14 +12,14 @@ app.get("/", function (req, res) {
 
 app.get("/ids/:action", function(req, res){
     if(req.params.action == "listPofsOfMall.action"){
-        console.log("get: " + getListOfPofs().s);
+        var result = getListOfPofs();
+        console.log("get: " + result.s);
     }
-    res.send("response: " + getListOfPofs().m);
 });
 
 function getListOfPofs(){
     var result = "";
-    var req = http.get("http://www.navior.cn:6603/ids/listPofsOfMall.action?mallId=823&operatorKey=FA07C1D5-800E-4065-8A40-7DD2D925C1A3", function(res){
+    var req = http.get("http://www.navior.cn:6603/ids/listPofsOfMall.action?mallId=824&operatorKey=FA07C1D5-800E-4065-8A40-7DD2D925C1A3", function(res){
         console.log("res got");
         console.log('STATUS: ' + res.statusCode);
         console.log('HEADERS: ' + JSON.stringify(res.headers));
