@@ -147,13 +147,20 @@ var PhotoSphereViewer = function(args) {
 
 					// Useful values
 					var data = binary.substring(a, b);
-					console.log("data is : " + data)
 					var full_width = parseInt(getAttribute(data, 'FullPanoWidthPixels'));
 					var full_height = parseInt(getAttribute(data, 'FullPanoHeightPixels'));
 					var cropped_width = parseInt(getAttribute(data, 'CroppedAreaImageWidthPixels'));
 					var cropped_height = parseInt(getAttribute(data, 'CroppedAreaImageHeightPixels'));
 					var cropped_x = parseInt(getAttribute(data, 'CroppedAreaLeftPixels'));
 					var cropped_y = parseInt(getAttribute(data, 'CroppedAreaTopPixels'));
+
+					//HACK
+					full_width = 2048;
+					full_height = 1024;
+					cropped_width = 2048;
+					cropped_height = 1024;
+					cropped_x = 0;
+					cropped_y = 0;
 
 					createBuffer(full_width, full_height, cropped_width, cropped_height, cropped_x, cropped_y);
 				}
@@ -406,7 +413,7 @@ var PhotoSphereViewer = function(args) {
 	 * @return (void)
 	 **/
 	var anim = function() {
-		if (m_anim !== false) {
+		if (m_anim !== false && hasAnime) {
 			clearTimeout(m_timeout);
 			m_timeout = setTimeout(rotate, m_anim);
 		}
@@ -502,6 +509,9 @@ var PhotoSphereViewer = function(args) {
 
 	// Container of the panorama
 	var m_container = args.container;
+
+	// Do Anime Or Not
+	var hasAnime = args.anime;
 
 	// Delay before the animation
 	var m_anim = 2000;
