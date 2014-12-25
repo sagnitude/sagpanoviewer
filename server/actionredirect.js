@@ -27,8 +27,10 @@ function getListOfPofs(){
             console.log('BODY: ' + chunk);
             result.concat(chunk);
         });
+        res.on('end', function(){
+            return JSON.parse(result);
+        });
     });
-    return JSON.parse(result);
 }
 
 app.listen(8997);
