@@ -147,6 +147,7 @@ var PhotoSphereViewer = function(args) {
 
 					// Useful values
 					var data = binary.substring(a, b);
+					console.log("data is : " + data)
 					var full_width = parseInt(getAttribute(data, 'FullPanoWidthPixels'));
 					var full_height = parseInt(getAttribute(data, 'FullPanoHeightPixels'));
 					var cropped_width = parseInt(getAttribute(data, 'CroppedAreaImageWidthPixels'));
