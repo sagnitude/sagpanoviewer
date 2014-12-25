@@ -21,7 +21,8 @@ var kListFsPathOfMallActionUrl = "listFsPathOfMall.action";
 function fetchActionJson(url, cb){
     $.get(url, function (data, status) {
         if(data.s === 0){
-            var resultSet = JSON.parse(data.d);
+            var resultSet = data.d;
+            console.log(data.m);
             return cb(resultSet);
         }else{
             console.log("Data fetch failed: ", data.m);
@@ -31,6 +32,7 @@ function fetchActionJson(url, cb){
 
 function getPofsListOfMall(mallId){
     fetchActionJson(assembleListPofsActionUrl(mallId), function (result) {
+        result.replace("\\\/", "\/");
         console.log(result);
     })
 }
