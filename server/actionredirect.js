@@ -28,7 +28,7 @@ function getListOfPofs(outputPipe){
             result.concat(chunk);
         });
         res.on('end', function (){
-            console.log("response from navior end.");
+            console.log("response from navior end: ", result);
             return JSON.parse(result);
         });
     });
