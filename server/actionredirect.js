@@ -12,14 +12,14 @@ app.get("/", function (req, res) {
 
 app.get("/ids/:action", function(req, res){
     if(req.params.action == "listPofsOfMall.action"){
-        var result = getListOfPofs();
+        var result = getListOfPofs(res);
         console.log("get: " + result.s);
     }
 });
 
-function getListOfPofs(){
+function getListOfPofs(outputPipe){
     var result = "";
-    var req = http.get("http://www.navior.cn:6603/ids/listPofsOfMall.action?mallId=824&operatorKey=FA07C1D5-800E-4065-8A40-7DD2D925C1A3", function(res){
+    var req = http.request("http://www.navior.cn:6603/ids/listPofsOfMall.action?mallId=824&operatorKey=FA07C1D5-800E-4065-8A40-7DD2D925C1A3", function(res){
         console.log("res got");
         console.log('STATUS: ' + res.statusCode);
         console.log('HEADERS: ' + JSON.stringify(res.headers));
@@ -27,10 +27,12 @@ function getListOfPofs(){
             console.log('BODY: ' + chunk);
             result.concat(chunk);
         });
+        res.on('end', function (){
+            console.log("response from navior end.");
+            return JSON.parse(result);
+        });
     });
-    req.on('end', function(){
-        return JSON.parse(result);
-    });
+    req.end();
 }
 
 app.listen(8997);
