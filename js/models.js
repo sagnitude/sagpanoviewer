@@ -2,16 +2,17 @@
  * Created by sagnitude on 14/12/25.
  */
 
-var IDSPOFS = function(id, x, y, floorId, mallId, name, fullShotStatus, fullShotId){
+var IDSPOFS = function(id, x, y, z, floorId, name, status, fullShotId, poiId){
     var ele = Object();
     ele.id = id;
     ele.x = x;
     ele.y = y;
+    ele.z = z;
     ele.floorId = floorId;
-    ele.mallId = mallId;
     ele.name = name;
-    ele.fullShotStatus = fullShotStatus;
+    ele.status = status;
     ele.fullShotId = fullShotId;
+    ele.poiId = poiId;
     return ele;
 };
 
