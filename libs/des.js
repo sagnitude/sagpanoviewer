@@ -191,3 +191,5 @@ function des_createKeys (key) {
     //return the keys we've created
     return keys;
 } //end of des_createKeys
+
+module.exports.des = des;
