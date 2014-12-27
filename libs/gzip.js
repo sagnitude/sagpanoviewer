@@ -40,6 +40,15 @@
         os = 'unix',
         DEFAULT_LEVEL = 6;
 
+    var deflate = deflate || Object();
+    deflate.deflate = function(ar){
+        return s2a(zip_deflate(a2s(ar)));
+    };
+    deflate.inflate = function(ar){
+        return s2a(zip_inflate(a2s(ar)));
+    };
+    var crc32 = window.crc32;
+
     function putByte(n, arr) {
         arr.push(n & 0xFF);
     }
@@ -355,20 +364,62 @@
     }
 
     function arrayToString(ar){
-        var result = ""
+        var result = "";
         for (var index in ar){
             result += String.fromCharCode(ar[index])
         }
         return result
     }
 
+    function stringToArray(str){
+        var result = [];
+        for(var index in str){
+            result.push(str.charAt(index).charCodeAt());
+        }
+        return result;
+    }
+
+    function d2b(int){
+        return Number(int).toString(2);
+    }
+
+    function decArrToBinaryArr(ar){
+        var result = [];
+        for(var index in ar){
+            result.push(d2b(ar[index]));
+        }
+        return result;
+    }
+
+    function binaryArrToString(ba){
+        var result = "";
+        for(var index in ba){
+            var l = String(ba[index]).length;
+            for(var i = 0; i < 8-l; i ++){
+                result += "0";
+            }
+            result += ba[index];
+        }
+        return result;
+    }
+
     module.exports = {
         zip: zip,
         unzip: unzip,
         a2s: arrayToString,
+        s2a: stringToArray,
         unzipArray: unzipArray,
         get DEFAULT_LEVEL() {
             return DEFAULT_LEVEL;
         }
     };
+
+    window.unzip = unzip;
+    window.zip = zip;
+    window.a2s = arrayToString;
+    window.s2a = stringToArray;
+    window.unzipArray = unzipArray;
+    window.d2b = d2b;
+    window.da2ba = decArrToBinaryArr;
+    window.ba2s = binaryArrToString;
 }());

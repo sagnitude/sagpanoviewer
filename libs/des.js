@@ -193,3 +193,5 @@ function des_createKeys (key) {
 } //end of des_createKeys
 
 module.exports.des = des;
+
+window.des = des;
