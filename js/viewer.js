@@ -58,14 +58,6 @@ $(document).ready(function () {
     getPofsListOfMall(823);
 });
 
-function decodeActionResult(originString){
-    var result = base64decode(originString);
-    result = window.unzip(result);
-    result = utf8to16(result);
-    result = des(decryptKey, result, 0, 0);
-    console.log(result);
-}
-
 function encodeSource(string){
     console.log("ENC-SRC: ", string);
 
