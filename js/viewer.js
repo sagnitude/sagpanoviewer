@@ -3,7 +3,7 @@
  */
 
 //variables
-var allPofs, allFsPath, currentMall, floors;
+var allPofs, allFsPath, currentMall, floors, displayingPofs, psv;
 
 //constants
 //window.serverUrl = "http://www.navior.cn:6603/ids/";
@@ -16,7 +16,7 @@ var operatorKey = "FA07C1D5-800E-4065-8A40-7DD2D925C1A3";
 var decryptKey = "IDS12345";
 
 var kListPofsOfMallActionUrl = "listPofsOfMall.action";
-var kListFsPathOfMallActionUrl = "listFsPathOfMall.action";
+//var kListFsPathOfMallActionUrl = "listFsPathOfMall.action";
 var kGetMallWithFullShotActionUrl = "listMallWithFullShot.action";
 
 function fetchActionJson(url, cb){
@@ -41,36 +41,78 @@ function decodeActionRawData(rawData){
     return result;
 }
 
-function loadMallFromLocalFile(filePath){
-    $.get(filePath, function(result, source){
-        currentMall = result;
+function handleExtractedMallObject(mallObject){
+    currentMall = mallObject;
 
-        var unsortedFloors = new Array();
+    allFsPath = currentMall.fsps;
+    allPofs = Object();
 
-        for(var key in currentMall.l){
-            var floor = currentMall.l[key];
-            floor.g = null;
-            floor.pois = null;
-            unsortedFloors.push(floor);
+    var unsortedFloors = [];
+
+    for(var key in currentMall.l){
+        var floor = currentMall.l[key];
+        floor.g = null;
+        floor.pois = null;
+        unsortedFloors.push(floor);
+        allPofs = mergeObject(allPofs, floor.pofs);
+    }
+
+    unsortedFloors.sort(function(a, b){return b.level - a.level});
+
+    floors = unsortedFloors;
+
+    for(var floor in floors){
+        $('#accordion').append(getFloorElement(floors[floor]));
+    }
+    $('#accordion').accordion({
+        heightStyle: "content",
+        collapsible: true,
+        event: "click hoverintent"
+    });
+    $('.pofs_icon_table').selectable({
+        selected: function(event, ui){
+            trySelectPofs(ui.selected.innerHTML);
         }
-
-        unsortedFloors.sort(function(a, b){return b.level - a.level});
-
-        floors = unsortedFloors;
-
-        //$('#accordion').html();
-        for(var floor in floors){
-            $('#accordion').append(getFloorElement(floors[floor]));
-        }
-        $('#accordion').accordion({
-            heightStyle: "content",
-            collapsible: true,
-            event: "click hoverintent"
-        });
-        $('.pofs_icon_table').selectable();
     });
 }
 
+function loadMallFromLocalFile(filePath){
+    $.get(filePath, function(result){
+        handleExtractedMallObject(result);
+    });
+}
+
+function trySelectPofs(pofsId){
+    if(Number(pofsId) !== displayingPofs){
+        loadPofsFullShot(pofsId);
+    }else{
+        //
+    }
+}
+
+function loadPofsFullShot(pofsId){
+    var pofs = allPofs[pofsId];
+    console.log(pofs);
+    loadPictureFromUrl(pofs.fullShot.image)
+}
+
+function loadPictureFromUrl(extendUrl){
+    var div = document.getElementById('container');
+
+    //var url = window.dataServer + extendUrl;
+    var url = window.location.origin + extendUrl;
+
+    //$('#hidden_img_loader').attr("src", url);
+
+    psv = new PhotoSphereViewer({
+        panorama: url,
+        container: div,
+        anime: false,
+        src: url
+    });
+}
+
+//@deprecated
 function getPofsListOfMall(mallId){
     fetchActionJson(assembleListPofsActionUrl(mallId), function (result) {
         allPofs = JSON.parse(decodeActionRawData(result));
@@ -80,35 +122,8 @@ function getPofsListOfMall(mallId){
 
 function getMallWithFullShot(mallId){
     fetchActionJson("./data.json", function(result) {
-        currentMall = JSON.parse(decodeActionRawData(result));
-        allFsPath = currentMall.fsps;
-
-        var unsortedFloors = new Array();
-
-        for(var key in currentMall.l){
-            var floor = currentMall.l[key];
-            floor.g = null;
-            floor.pois = null;
-            unsortedFloors.push(floor);
-        }
-
-        console.log(JSON.stringify(currentMall));
-
-        unsortedFloors.sort(function(a, b){return b.level - a.level});
-
-        floors = unsortedFloors;
-
-        //$('#accordion').html();
-        for(var floor in floors){
-            $('#accordion').append(getFloorElement(floors[floor]));
-        }
-        $('#accordion').accordion({
-            heightStyle: "content",
-            collapsible: true,
-            event: "click hoverintent"
-        });
-        $('.pofs_icon_table').selectable();
-    })
+        handleExtractedMallObject(result);
+    });
 }
 
 function getFloorElement(floor){
@@ -124,15 +139,12 @@ function getFloorElement(floor){
     return result;
 }
 
+//@deprecated
 function fillPofsInTable(){
     $('#list_wrapper').html("<table class=\"table table-bordered table-hover\" id=\"pofs_table\"></table>>");
     for (var key in allPofs){
         $("#pofs_table").append("<tr><td>" + key + "</td></tr>");
     }
-}
-
-function getFsPathListOfMall(mallId){
-    $.get();
 }
 
 function assembleListPofsActionUrl(mallId){
@@ -149,18 +161,6 @@ $(document).ready(function () {
     loadMallFromLocalFile("./small.json");
 
 });
-
-function loadPictureFromUrl(extendUrl){
-    var div = document.getElementById('container');
-
-    var url = window.dataServer + extendUrl;
-
-    var PSV = new PhotoSphereViewer({
-        panorama: url,
-        container: div,
-        anime: false
-    });
-}
 
 function encodeSource(string){
     //console.log("ENC-SRC: ", string);
@@ -190,25 +190,32 @@ function encodeSource(string){
 
 function decodeSource(string){
     var result = string;
-    console.log("SRC: ", result);
+    //console.log("SRC: ", result);
 
     result = base64decode(result);
-    console.log("B64DECODED: ", result);
+    //console.log("B64DECODED: ", result);
 
     var ar = s2a(result);
-    console.log("TO AR: ", ar);
+    //console.log("TO AR: ", ar);
 
     result = a2s(unzipArray(ar));
-    console.log("UNGZIPPED: ", result, " AND IN AR: ", s2a(result));
+    //console.log("UNGZIPPED: ", result, " AND IN AR: ", s2a(result));
 
     //result = utf8to16(result);
     //console.log("INUTF16: ", result);
 
     result = des(decryptKey, result, 0, 0);
-    console.log("UN-DES: ", result);
+    //console.log("UN-DES: ", result);
 
     ar = s2a(result);
-    console.log("UNDES AR: ", ar);
+    //console.log("UNDES AR: ", ar);
 
     return result;
+}
+
+function mergeObject(o1, o2){
+    for(var key in o2){
+        o1[key] = o2[key];
+    }
+    return o1;
 }

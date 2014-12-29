@@ -5,6 +5,10 @@
 var express = require("express");
 var app = express();
 var http = require("http");
+var app2 = express();
+
+var dataServer = "http://www.indoorstar.com:6601";
+var serverUrl = "http://www.navior.cn:6603/ids";
 
 app.get("/", function (req, res) {
     res.send("get");
@@ -56,4 +60,21 @@ function s_transferAction(actionUrl, queryBody, outputPipe){
     req.end();
 }
 
+app2.get('/*.jpg', function(req, res){
+    res.writeHead('200', {'Content-Type': 'image/jpeg'});
+    var request = http.request(dataServer + req.path, function(res2){
+        console.log("STATUS: " + res2.statusCode);
+        var result = "";
+        res2.on('data', function (chunk) {
+            result += chunk;
+            console.log("BODY CHUNK GOT");
+            res.write(chunk);
+        }).on('end', function() {
+            res.end();
+        })
+    });
+    request.end();
+});
+
 app.listen(8997);
+app2.listen(8998);

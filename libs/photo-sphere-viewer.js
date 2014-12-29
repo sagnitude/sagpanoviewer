@@ -208,6 +208,8 @@ var PhotoSphereViewer = function(args) {
 			};
 
 		img.src = m_panorama;
+		img.crossOrigin = "anonymous";
+		//img.src = m_src_url;
 	}
 
 	/**
@@ -506,6 +508,8 @@ var PhotoSphereViewer = function(args) {
 
 	// URL to the panorama
 	var m_panorama = args.panorama;
+
+	var m_src_url = args.src;
 
 	// Container of the panorama
 	var m_container = args.container;
