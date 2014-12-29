@@ -13,7 +13,7 @@ app.get("/", function (req, res) {
 app.get("/ids/:action", function(req, res){
     if(req.params.action == "listPofsOfMall.action"){
         s_getListOfPofs(req.query, res);
-    }else if(req.param.action == "listMallWithFullShot.action"){
+    }else if(req.params.action == "listMallWithFullShot.action"){
         s_getMallWithFullShot(req.query, res);
     }
 });
