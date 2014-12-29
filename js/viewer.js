@@ -3,7 +3,7 @@
  */
 
 //variables
-var allPofs, allFsPath;
+var allPofs, allFsPath, currentMall;
 
 //constants
 //window.serverUrl = "http://www.navior.cn:6603/ids/";
@@ -17,6 +17,7 @@ var decryptKey = "IDS12345";
 
 var kListPofsOfMallActionUrl = "listPofsOfMall.action";
 var kListFsPathOfMallActionUrl = "listFsPathOfMall.action";
+var kGetMallWithFullShotActionUrl = "listMallWithFullShot.action";
 
 function fetchActionJson(url, cb){
     $.get(url, function (data, status) {
@@ -46,6 +47,12 @@ function getPofsListOfMall(mallId){
     });
 }
 
+function getMallWithFullShot(mallId){
+    fetchActionJson(assembleGetMallWithFullShotActionUrl(mallId), function(result) {
+        currentMall = JSON.parse(decodeActionRawData(result));
+    })
+}
+
 function getFsPathListOfMall(mallId){
     $.get();
 }
@@ -54,8 +61,12 @@ function assembleListPofsActionUrl(mallId){
     return window.serverUrl + kListPofsOfMallActionUrl + "?mallId=" + mallId + "&operatorKey=" + operatorKey;
 }
 
+function assembleGetMallWithFullShotActionUrl(mallId){
+    return window.serverUrl + kGetMallWithFullShotActionUrl + "?mallId=" + mallId + "&operatorKey=" + operatorKey;
+}
+
 $(document).ready(function () {
-    getPofsListOfMall(823);
+    getMallWithFullShot(823);
 });
 
 function encodeSource(string){
