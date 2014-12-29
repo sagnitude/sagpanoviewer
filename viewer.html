@@ -12,6 +12,9 @@
     <script src="./libs/zipjs/utf.js"></script>
     <script src="./libs/crc32.js"></script>
 
+    <link rel="stylesheet" href="./style/page.css">
+    <link rel="stylesheet" href="./style/viewer.css">
+
     <script type="application/javascript" >
         var module = module || Object();
         var require = require || function(requirename){};
@@ -47,7 +50,10 @@
 </head>
 
 <body>
-<div id="container"></div>
+<div id="wrapper">
+    <div id="container"></div>
+    <div id="list_wrapper"></div>
+</div>
 
 <script>
     var div = document.getElementById('container');

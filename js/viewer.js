@@ -50,7 +50,15 @@ function getPofsListOfMall(mallId){
 function getMallWithFullShot(mallId){
     fetchActionJson(assembleGetMallWithFullShotActionUrl(mallId), function(result) {
         currentMall = JSON.parse(decodeActionRawData(result));
+        allFsPath = currentMall.fsps;
     })
+}
+
+function fillPofsInTable(){
+    $('#list_wrapper').html("<table class=\".table\" id=\"pofs_table\"></table>>");
+    for (var key in allPofs){
+        $("#pofs_table").append("<tr><td>" + key + "</td></tr>");
+    }
 }
 
 function getFsPathListOfMall(mallId){
@@ -67,6 +75,7 @@ function assembleGetMallWithFullShotActionUrl(mallId){
 
 $(document).ready(function () {
     getMallWithFullShot(823);
+    getPofsListOfMall(823);
 });
 
 function encodeSource(string){
