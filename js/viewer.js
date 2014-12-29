@@ -100,7 +100,7 @@ function loadPictureFromUrl(extendUrl){
     var div = document.getElementById('container');
 
     //var url = window.dataServer + extendUrl;
-    var url = window.location.origin + extendUrl;
+    var url = window.location.origin + "/" + extendUrl;
 
     //$('#hidden_img_loader').attr("src", url);
 
