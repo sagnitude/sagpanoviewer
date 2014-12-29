@@ -56,7 +56,7 @@ function getMallWithFullShot(mallId){
 }
 
 function fillPofsInTable(){
-    $('#list_wrapper').html("<table class=\".table\" id=\"pofs_table\"></table>>");
+    $('#list_wrapper').html("<table class=\"table table-bordered table-hover\" id=\"pofs_table\"></table>>");
     for (var key in allPofs){
         $("#pofs_table").append("<tr><td>" + key + "</td></tr>");
     }
@@ -76,7 +76,6 @@ function assembleGetMallWithFullShotActionUrl(mallId){
 
 $(document).ready(function () {
     getMallWithFullShot(823);
-    getPofsListOfMall(823);
 });
 
 function encodeSource(string){
