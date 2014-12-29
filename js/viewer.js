@@ -3,7 +3,7 @@
  */
 
 //variables
-var allPofs, allFsPath, currentMall;
+var allPofs, allFsPath, currentMall, floors;
 
 //constants
 //window.serverUrl = "http://www.navior.cn:6603/ids/";
@@ -52,7 +52,37 @@ function getMallWithFullShot(mallId){
     fetchActionJson(assembleGetMallWithFullShotActionUrl(mallId), function(result) {
         currentMall = JSON.parse(decodeActionRawData(result));
         allFsPath = currentMall.fsps;
+
+        var unsortedFloors = new Array();
+
+        for(var key in currentMall.l){
+            var floor = currentMall.l[key];
+            unsortedFloors.push(floor);
+        }
+
+        unsortedFloors.sort(function(a, b){return b.level - a.level});
+
+        floors = unsortedFloors;
+
+        $('#accordion').html();
+        for(var floor in floors){
+            $('#accordion').append(getFloorElement(floors[floor]));
+        }
+        $('#accordion').accordion();
     })
+}
+
+function getFloorElement(floor){
+    var h3 = "<h3>"+floor.nm+"</h3>";
+    var div = "<div id=\"floor_"+floor.id+"\"> " + "<ol class=\"pofs_icon_table\" id=\"floor_pofs_list"+floor.id;
+    var tail = "\"></ol>" + " </div>";
+
+    var result = h3 + div;
+    for(var key in floor.pofs){
+        result += "<li class=\"ui-widget-content\">"+key+"</li>";
+    }
+    result += tail;
+    return result;
 }
 
 function fillPofsInTable(){
@@ -76,6 +106,8 @@ function assembleGetMallWithFullShotActionUrl(mallId){
 
 $(document).ready(function () {
     getMallWithFullShot(823);
+
+    $( "#accordion" ).accordion();
 });
 
 function encodeSource(string){
