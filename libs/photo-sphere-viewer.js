@@ -552,7 +552,7 @@ var PhotoSphereViewer = function(args) {
 	// Some useful attributes
 	var m_width, m_height, m_ratio;
 	var m_renderer, m_scene, m_camera;
-	var m_fov = 70, m_phi = 0, m_theta = 0;
+	var m_fov = 60, m_phi = 0, m_theta = 0;
 	var m_mousedown = false, m_mouse_x = 0, m_mouse_y = 0;
 	var m_timeout = null;
 
