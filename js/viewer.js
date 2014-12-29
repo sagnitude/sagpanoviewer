@@ -69,13 +69,14 @@ function getMallWithFullShot(mallId){
             $('#accordion').append(getFloorElement(floors[floor]));
         }
         $('#accordion').accordion();
+        $('.pofs_icon_table').selectable();
     })
 }
 
 function getFloorElement(floor){
     var h3 = "<h3>"+floor.nm+"</h3>";
-    var div = "<div id=\"floor_"+floor.id+"\"> " + "<ol class=\"pofs_icon_table\" id=\"floor_pofs_list"+floor.id;
-    var tail = "\"></ol>" + " </div>";
+    var div = "<div id=\"floor_"+floor.id+"\"> " + "<ol class=\"pofs_icon_table\">";
+    var tail = "</ol>" + " </div>";
 
     var result = h3 + div;
     for(var key in floor.pofs){
