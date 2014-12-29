@@ -44,6 +44,7 @@ function decodeActionRawData(rawData){
 function getPofsListOfMall(mallId){
     fetchActionJson(assembleListPofsActionUrl(mallId), function (result) {
         allPofs = JSON.parse(decodeActionRawData(result));
+        fillPofsInTable();
     });
 }
 
