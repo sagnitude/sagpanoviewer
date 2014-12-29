@@ -20,8 +20,18 @@ app.get("/ids/:action", function(req, res){
 
 function s_getListOfPofs(queryBody, outputPipe){
     if(queryBody.mallId && queryBody.operatorKey){
-        var reqUrl = "http://www.navior.cn:6603/ids/listPofsOfMall.action?mallId="+queryBody.mallId+"&operatorKey="+queryBody.operatorKey;
-        s_transferAction(reqUrl, queryBody, outputPipe);
+        var req = http.request("http://www.navior.cn:6603/ids/listPofsOfMall.action?mallId="+queryBody.mallId+"&operatorKey="+queryBody.operatorKey, function(res){
+            console.log('STATUS: ' + res.statusCode);
+            var result = "";
+            res.on('data', function (chunk) {
+                console.log('BODY CHUNK GOT');
+                result += chunk;
+            }).on('end', function (){
+                outputPipe.send(JSON.parse(result));
+            });
+        });
+        req.write(require('querystring').stringify(queryBody));
+        req.end();
     }
 }
 
