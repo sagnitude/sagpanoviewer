@@ -117,57 +117,67 @@ var PhotoSphereViewer = function(args) {
 	 * @return (void)
 	 **/
 	var loadEXIF = function() {
-		var xhr = null;
-		if (window.XMLHttpRequest)
-			xhr = new XMLHttpRequest();
-		else if (window.ActiveXObject) {
-			try {
-				xhr = new ActiveXObject('Msxml2.XMLHTTP');
-			}
-			catch (e) {
-				xhr = new ActiveXObject('Microsoft.XMLHTTP');
-			}
-		}
-		else {
-			m_container.textContent = 'XHR is not supported, update your browser!';
-			return;
-		}
+		//var xhr = null;
+		//if (window.XMLHttpRequest)
+		//	xhr = new XMLHttpRequest();
+		//else if (window.ActiveXObject) {
+		//	try {
+		//		xhr = new ActiveXObject('Msxml2.XMLHTTP');
+		//	}
+		//	catch (e) {
+		//		xhr = new ActiveXObject('Microsoft.XMLHTTP');
+		//	}
+		//}
+		//else {
+		//	m_container.textContent = 'XHR is not supported, update your browser!';
+		//	return;
+		//}
+        //
+		//xhr.onreadystatechange = function() {
+		//		if (xhr.readyState == 4 && xhr.status == 200) {
+		//			// Metadata
+		//			var binary = xhr.responseText;
+		//			var a = binary.indexOf('<x:xmpmeta'), b = binary.indexOf('</x:xmpmeta>');
+        //
+		//			// No data retrieved
+		//			if (a == -1 || b == -1) {
+		//				m_container.textContent = 'This is not a Photo Sphere panorama!';
+		//				return;
+		//			}
+        //
+		//			// Useful values
+		//			var data = binary.substring(a, b);
+		//			var full_width = parseInt(getAttribute(data, 'FullPanoWidthPixels'));
+		//			var full_height = parseInt(getAttribute(data, 'FullPanoHeightPixels'));
+		//			var cropped_width = parseInt(getAttribute(data, 'CroppedAreaImageWidthPixels'));
+		//			var cropped_height = parseInt(getAttribute(data, 'CroppedAreaImageHeightPixels'));
+		//			var cropped_x = parseInt(getAttribute(data, 'CroppedAreaLeftPixels'));
+		//			var cropped_y = parseInt(getAttribute(data, 'CroppedAreaTopPixels'));
+        //
+		//			//HACK
+		//			full_width = 2048;
+		//			full_height = 1024;
+		//			cropped_width = 2048;
+		//			cropped_height = 1024;
+		//			cropped_x = 0;
+		//			cropped_y = 0;
+        //
+		//			createBuffer(full_width, full_height, cropped_width, cropped_height, cropped_x, cropped_y);
+		//		}
+		//	};
+        //
+		//xhr.open('GET', m_panorama, true);
+		//xhr.send(null);
+		
+		var full_width = 2048;
+		var full_height = 1024;
+		var cropped_width = 2048;
+		var cropped_height = 1024;
+		var cropped_x = 0;
+		var cropped_y = 0;
 
-		xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					// Metadata
-					var binary = xhr.responseText;
-					var a = binary.indexOf('<x:xmpmeta'), b = binary.indexOf('</x:xmpmeta>');
+		createBuffer(full_width, full_height, cropped_width, cropped_height, cropped_x, cropped_y);
 
-					// No data retrieved
-					if (a == -1 || b == -1) {
-						m_container.textContent = 'This is not a Photo Sphere panorama!';
-						return;
-					}
-
-					// Useful values
-					var data = binary.substring(a, b);
-					var full_width = parseInt(getAttribute(data, 'FullPanoWidthPixels'));
-					var full_height = parseInt(getAttribute(data, 'FullPanoHeightPixels'));
-					var cropped_width = parseInt(getAttribute(data, 'CroppedAreaImageWidthPixels'));
-					var cropped_height = parseInt(getAttribute(data, 'CroppedAreaImageHeightPixels'));
-					var cropped_x = parseInt(getAttribute(data, 'CroppedAreaLeftPixels'));
-					var cropped_y = parseInt(getAttribute(data, 'CroppedAreaTopPixels'));
-
-					//HACK
-					full_width = 2048;
-					full_height = 1024;
-					cropped_width = 2048;
-					cropped_height = 1024;
-					cropped_x = 0;
-					cropped_y = 0;
-
-					createBuffer(full_width, full_height, cropped_width, cropped_height, cropped_x, cropped_y);
-				}
-			};
-
-		xhr.open('GET', m_panorama, true);
-		xhr.send(null);
 	}
 
 	/**
