@@ -5,9 +5,10 @@
     <title>Photo Sphere Viewer</title>
     <meta name="viewport" content="initial-scale=1.0" />
 
-    <link rel="stylesheet" href="./libs/jquery-ui-1.11.2.custom/jquery-ui.min.css">
+    <link rel="stylesheet" href="./libs/jquery-ui-1.11.2.custom/jquery_smoothness.css">
     <script src="./libs/jquery-1.11.2.min.js"></script>
     <script src="./libs/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
+    <script src="./libs/jquery.livequery.js"></script>
     <script src="./libs/three.min.js"></script>
     <script src="./libs/zipjs/inflate.js"></script>
     <script src="./libs/zipjs/deflate.js"></script>
@@ -59,14 +60,5 @@
     </div>
 </div>
 
-<script>
-    var div = document.getElementById('container');
-    var PSV = new PhotoSphereViewer({
-        panorama: './imgs/sun2.jpg',
-        container: div,
-        anime: false
-//					anim_speed: '3rpm'
-    });
-</script>
 </body>
 </html>

@@ -41,6 +41,36 @@ function decodeActionRawData(rawData){
     return result;
 }
 
+function loadMallFromLocalFile(filePath){
+    $.get(filePath, function(result, source){
+        currentMall = result;
+
+        var unsortedFloors = new Array();
+
+        for(var key in currentMall.l){
+            var floor = currentMall.l[key];
+            floor.g = null;
+            floor.pois = null;
+            unsortedFloors.push(floor);
+        }
+
+        unsortedFloors.sort(function(a, b){return b.level - a.level});
+
+        floors = unsortedFloors;
+
+        //$('#accordion').html();
+        for(var floor in floors){
+            $('#accordion').append(getFloorElement(floors[floor]));
+        }
+        $('#accordion').accordion({
+            heightStyle: "content",
+            collapsible: true,
+            event: "click hoverintent"
+        });
+        $('.pofs_icon_table').selectable();
+    });
+}
+
 function getPofsListOfMall(mallId){
     fetchActionJson(assembleListPofsActionUrl(mallId), function (result) {
         allPofs = JSON.parse(decodeActionRawData(result));
@@ -49,7 +79,7 @@ function getPofsListOfMall(mallId){
 }
 
 function getMallWithFullShot(mallId){
-    fetchActionJson(assembleGetMallWithFullShotActionUrl(mallId), function(result) {
+    fetchActionJson("./data.json", function(result) {
         currentMall = JSON.parse(decodeActionRawData(result));
         allFsPath = currentMall.fsps;
 
@@ -57,18 +87,26 @@ function getMallWithFullShot(mallId){
 
         for(var key in currentMall.l){
             var floor = currentMall.l[key];
+            floor.g = null;
+            floor.pois = null;
             unsortedFloors.push(floor);
         }
+
+        console.log(JSON.stringify(currentMall));
 
         unsortedFloors.sort(function(a, b){return b.level - a.level});
 
         floors = unsortedFloors;
 
-        $('#accordion').html();
+        //$('#accordion').html();
         for(var floor in floors){
             $('#accordion').append(getFloorElement(floors[floor]));
         }
-        $('#accordion').accordion();
+        $('#accordion').accordion({
+            heightStyle: "content",
+            collapsible: true,
+            event: "click hoverintent"
+        });
         $('.pofs_icon_table').selectable();
     })
 }
@@ -106,33 +144,46 @@ function assembleGetMallWithFullShotActionUrl(mallId){
 }
 
 $(document).ready(function () {
-    getMallWithFullShot(823);
+    //getMallWithFullShot(823);
 
-    $( "#accordion" ).accordion();
+    loadMallFromLocalFile("./small.json");
+
 });
 
+function loadPictureFromUrl(extendUrl){
+    var div = document.getElementById('container');
+
+    var url = window.dataServer + extendUrl;
+
+    var PSV = new PhotoSphereViewer({
+        panorama: url,
+        container: div,
+        anime: false
+    });
+}
+
 function encodeSource(string){
-    console.log("ENC-SRC: ", string);
+    //console.log("ENC-SRC: ", string);
 
     var ar = s2a(string);
-    console.log("INPUT AR: ", ar);
+    //console.log("INPUT AR: ", ar);
 
     string = des(decryptKey, string, 1, 0);
-    console.log("DES-ENC: ", string);
+    //console.log("DES-ENC: ", string);
 
     //string = utf16to8(string);
     //console.log("INUTF8: ", string);
 
     ar = s2a(string);
     ar = da2ba(ar);
-    console.log("IN BINARY STR: ", ba2s(ar));
+    //console.log("IN BINARY STR: ", ba2s(ar));
 
     ar = window.zip(result);
     string = a2s(ar);
-    console.log("GZIPPED: ", ar, " IN STRING ", string);
+    //console.log("GZIPPED: ", ar, " IN STRING ", string);
 
     string = base64encode(string);
-    console.log("B64ENCODED: ", string);
+    //console.log("B64ENCODED: ", string);
 
     return string;
 }
