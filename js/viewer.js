@@ -97,10 +97,10 @@ function trySelectPofs(pofsId){
 function loadPofsFullShot(pofsId){
     var pofs = allPofs[pofsId];
     console.log(pofs);
-    loadPictureFromUrl(pofs.fullShot)
+    loadPictureFromUrl(pofs.fullShot, pofs.id);
 }
 
-function loadPictureFromUrl(fullShot){
+function loadPictureFromUrl(fullShot, pofsId){
     var div = document.getElementById('container');
 
     //var url = window.dataServer + extendUrl;
@@ -108,12 +108,32 @@ function loadPictureFromUrl(fullShot){
 
     //$('#hidden_img_loader').attr("src", url);
 
+    var adjacents = [];
+
+    for(var key in allFsPath){
+        var fspath = allFsPath[key];
+        if(fspath.p1 === pofsId){
+            adjacents.push(fspath.p1);
+        }else if(fspath.p2 === pofsId){
+            adjacents.push(fspath.p2);
+        }
+    }
+
+    var adAgPairs = Object();
+
+    for(var k in adjacents){
+        var p2 = allPofs[adjacents[k]];
+        var angle = Math.atan2(p2.y - allPofs[pofsId].y, p2.x - allPofs[pofsId].x);
+        adAgPairs[adjacents[k]] = angle;
+    }
+
     psv = new PhotoSphereViewer({
         panorama: url,
         container: div,
         anime: false,
         src: url,
-        curves: fullShot
+        curves: fullShot,
+        adjacents: adjacents
     });
 }
 

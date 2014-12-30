@@ -528,6 +528,8 @@ var PhotoSphereViewer = function(args) {
 
 	var m_curves = args.curves;
 
+	var m_adjacents = args.adjacents;
+
 	// Container of the panorama
 	var m_container = args.container;
 
