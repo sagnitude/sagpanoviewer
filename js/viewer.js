@@ -248,3 +248,12 @@ function mergeObject(o1, o2){
     }
     return o1;
 }
+
+var Event = {
+    addHandler: function (oElement, sEvent, fnHandler) {
+        oElement.addEventListener ? oElement.addEventListener(sEvent, fnHandler, false) : oElement.attachEvent("on" + sEvent, fnHandler)
+    },
+    removeHandler: function (oElement, sEvent, fnHandler) {
+        oElement.removeEventListener ? oElement.removeEventListener(sEvent, fnHandler, false) : oElement.detachEvent("on" + sEvent, fnHandler)
+    }
+}

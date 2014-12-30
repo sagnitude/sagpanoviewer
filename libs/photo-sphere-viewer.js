@@ -59,10 +59,12 @@ var PhotoSphereViewer = function (args) {
 	 * @return (void)
 	 **/
 	var attachEvent = function (elt, evt, f) {
-		if (elt.addEventListener)
-			elt.addEventListener(evt, f, false);
-		else
-			elt.attachEvent('on' + evt, f);
+//		if (elt.addEventListener)
+//			elt.addEventListener(evt, f, false);
+//		else
+//			elt.attachEvent('on' + evt, f);
+        Event.removeHandler(elt, evt, f);
+        Event.addHandler(elt, evt, f);
 	}
 
 	/**
