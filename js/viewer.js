@@ -113,9 +113,9 @@ function loadPictureFromUrl(fullShot, pofsId){
     for(var key in allFsPath){
         var fspath = allFsPath[key];
         if(fspath.p1 === pofsId){
-            adjacents.push(fspath.p1);
-        }else if(fspath.p2 === pofsId){
             adjacents.push(fspath.p2);
+        }else if(fspath.p2 === pofsId){
+            adjacents.push(fspath.p1);
         }
     }
 
