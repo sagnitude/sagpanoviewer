@@ -459,8 +459,8 @@ var PhotoSphereViewer = function (args) {
 		evt.preventDefault();
 		startMove(parseInt(evt.clientX), parseInt(evt.clientY));
 
-		mouseX = ( event.clientX / m_renderer.domElement.clientWidth ) * 2 - 1;
-		mouseY = -( event.clientY / m_renderer.domElement.clientHeight ) * 2 + 1;
+		mouseX = ( event.offsetX / m_renderer.domElement.clientWidth ) * 2 - 1;
+		mouseY = -( event.offsetY / m_renderer.domElement.clientHeight ) * 2 + 1;
 		click();
 	}
 
@@ -524,8 +524,8 @@ var PhotoSphereViewer = function (args) {
 		evt.preventDefault();
 		move(parseInt(evt.clientX), parseInt(evt.clientY));
 
-		mouseX = ( event.clientX / m_renderer.domElement.clientWidth ) * 2 - 1;
-		mouseY = -( event.clientY / m_renderer.domElement.clientHeight ) * 2 + 1;
+		mouseX = ( event.offsetX / m_renderer.domElement.clientWidth ) * 2 - 1;
+		mouseY = -( event.offsetY / m_renderer.domElement.clientHeight ) * 2 + 1;
 	}
 
 	/**
@@ -539,8 +539,8 @@ var PhotoSphereViewer = function (args) {
 			evt.preventDefault();
 			move(parseInt(touch.clientX), parseInt(touch.clientY));
 
-			mouseX = ( event.clientX / m_renderer.domElement.clientWidth ) * 2 - 1;
-			mouseY = -( event.clientY / m_renderer.domElement.clientHeight ) * 2 + 1;
+			mouseX = ( event.offsetX / m_renderer.domElement.clientWidth ) * 2 - 1;
+			mouseY = -( event.offsetY / m_renderer.domElement.clientHeight ) * 2 + 1;
 		}
 	}
 
