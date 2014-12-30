@@ -262,6 +262,11 @@ var PhotoSphereViewer = function(args) {
 		mesh.scale.x = -1;
 		m_scene.add(mesh);
 
+		//lines
+		//var op = m_curves.op;
+		//var shape = m_curves.shape;
+
+
 		// Adding events
 		attachEvent(window, 'resize', onResize);
 		attachEvent(m_container, 'mousedown', onMouseDown);
@@ -520,6 +525,8 @@ var PhotoSphereViewer = function(args) {
 	var m_panorama = args.panorama;
 
 	var m_src_url = args.src;
+
+	var m_curves = args.curves;
 
 	// Container of the panorama
 	var m_container = args.container;

@@ -64,16 +64,20 @@ function handleExtractedMallObject(mallObject){
     for(var floor in floors){
         $('#accordion').append(getFloorElement(floors[floor]));
     }
-    $('#accordion').accordion({
-        heightStyle: "content",
-        collapsible: true,
-        event: "click hoverintent"
-    });
-    $('.pofs_icon_table').selectable({
-        selected: function(event, ui){
-            trySelectPofs(ui.selected.innerHTML);
-        }
-    });
+    try{
+        $('#accordion').accordion({
+            heightStyle: "content",
+            collapsible: true,
+            event: "click hoverintent"
+        });
+        $('.pofs_icon_table').selectable({
+            selected: function(event, ui){
+                trySelectPofs(ui.selected.innerHTML);
+            }
+        });
+    }catch(e){
+        console.log(e);
+    }
 }
 
 function loadMallFromLocalFile(filePath){
@@ -93,14 +97,14 @@ function trySelectPofs(pofsId){
 function loadPofsFullShot(pofsId){
     var pofs = allPofs[pofsId];
     console.log(pofs);
-    loadPictureFromUrl(pofs.fullShot.image)
+    loadPictureFromUrl(pofs.fullShot)
 }
 
-function loadPictureFromUrl(extendUrl){
+function loadPictureFromUrl(fullShot){
     var div = document.getElementById('container');
 
     //var url = window.dataServer + extendUrl;
-    var url = window.location.origin + "/" + extendUrl;
+    var url = window.location.origin + "/" + fullShot.image;
 
     //$('#hidden_img_loader').attr("src", url);
 
@@ -108,7 +112,8 @@ function loadPictureFromUrl(extendUrl){
         panorama: url,
         container: div,
         anime: false,
-        src: url
+        src: url,
+        curves: fullShot
     });
 }
 
