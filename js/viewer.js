@@ -104,8 +104,8 @@ function loadPofsFullShot(pofsId){
 function loadPictureFromUrl(fullShot, pofsId){
     var div = document.getElementById('container');
 
-    //var url = window.dataServer + extendUrl;
-    var url = window.location.origin + "/" + fullShot.image;
+//    var url = window.location.origin + "/" + fullShot.image;
+    var url = window.dataServer + fullShot.image;
 
     //$('#hidden_img_loader').attr("src", url);
 
