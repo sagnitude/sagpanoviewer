@@ -189,24 +189,24 @@ var PhotoSphereViewer = function (args) {
 
 		img.onload = function () {
 			// Resize image for mobile compatibility
-			var max_width = 2048;
-			if (isWebGLSupported()) {
-				var canvas = document.createElement('canvas');
-				var ctx = canvas.getContext('webgl');
-				max_width = ctx.getParameter(ctx.MAX_TEXTURE_SIZE);
-			}
-
-			var new_width = Math.min(full_width, max_width);
-			var r = new_width / full_width;
-			full_width = new_width;
-			cropped_width *= r;
-			cropped_x *= r;
-			img.width = cropped_width;
-
-			full_height *= r;
-			cropped_height *= r;
-			cropped_y *= r;
-			img.height = cropped_height;
+//			var max_width = 2048;
+//			if (isWebGLSupported()) {
+//				var canvas = document.createElement('canvas');
+//				var ctx = canvas.getContext('webgl');
+//				max_width = ctx.getParameter(ctx.MAX_TEXTURE_SIZE);
+//			}
+//
+//			var new_width = Math.min(full_width, max_width);
+//			var r = new_width / full_width;
+//			full_width = new_width;
+//			cropped_width *= r;
+//			cropped_x *= r;
+//			img.width = cropped_width;
+//
+//			full_height *= r;
+//			cropped_height *= r;
+//			cropped_y *= r;
+//			img.height = cropped_height;
 
 			var buffer = document.createElement('canvas');
 			buffer.width = full_width;
