@@ -97,6 +97,7 @@ function trySelectPofs(pofsId){
 function loadPofsFullShot(pofsId){
     var pofs = allPofs[pofsId];
     console.log(pofs);
+    displayingPofs = pofs;
     loadPictureFromUrl(pofs.fullShot, pofs.id);
 }
 

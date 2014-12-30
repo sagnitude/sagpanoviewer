@@ -262,6 +262,7 @@ var PhotoSphereViewer = function (args) {
 		var material = new THREE.MeshBasicMaterial({map: texture, overdraw: true});
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.scale.x = -1;
+        mesh.rotateY(displayingPofs.fullShot.interAngle - Math.PI / 2);
 		m_scene.add(mesh);
 
 		//lines
@@ -320,6 +321,7 @@ var PhotoSphereViewer = function (args) {
 				spriteObject.position.set(spriteX, spriteY, spriteZ);
 				spriteObject.scale.set(5, 5, 1.0);
 				sceneSprite.add(spriteObject);
+                spriteObject.rotateY(displayingPofs.fullShot.interAngle - Math.PI / 2);
 			}
 		}
 
