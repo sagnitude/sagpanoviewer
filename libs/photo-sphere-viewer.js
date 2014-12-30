@@ -294,7 +294,8 @@ var PhotoSphereViewer = function (args) {
 		});
 
 		{
-			var pofsList = [{shape: [1.5, 1.5, 1.6, 1.5, 1.6, 1.6, 1.5, 1.6]}, {shape: [1, 1.5, 1.1, 1.5, 1.1, 1.6, 1, 1.5]}];
+			var pofsList = m_curves.editParts;
+
 			for (var pi in pofsList) {
 				var shape = pofsList[pi].shape;
 				var minX = 100, maxX = -100, minY = 100, maxY = -100;
