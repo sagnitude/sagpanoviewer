@@ -246,7 +246,7 @@ var PhotoSphereViewer = function (args) {
 	 **/
 	var createScene = function (texture) {
 		// The chosen renderer depends on if WebGL is supported or not
-		m_renderer = (isWebGLSupported()) ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
+		window.trenderer = m_renderer = window.trenderer || ((isWebGLSupported()) ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer());
 		m_renderer.setSize(m_width, m_height);
 
 		m_scene = new THREE.Scene();
