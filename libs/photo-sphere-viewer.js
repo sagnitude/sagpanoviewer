@@ -530,6 +530,8 @@ var PhotoSphereViewer = function(args) {
 
 	var m_adjacents = args.adjacents;
 
+	var m_jumpCallBack = args.onJumpCallBack;
+
 	// Container of the panorama
 	var m_container = args.container;
 

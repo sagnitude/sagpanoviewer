@@ -133,7 +133,10 @@ function loadPictureFromUrl(fullShot, pofsId){
         anime: false,
         src: url,
         curves: fullShot,
-        adjacents: adAgPairs
+        adjacents: adAgPairs,
+        onJumpCallBack: function(targetPofsId){
+            trySelectPofs(targetPofsId);
+        }
     });
 }
 
