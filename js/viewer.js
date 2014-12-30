@@ -87,8 +87,10 @@ function loadMallFromLocalFile(filePath){
 }
 
 function trySelectPofs(pofsId){
-    if(Number(pofsId) !== displayingPofs.id){
-        loadPofsFullShot(pofsId);
+    if(displayingPofs){
+        if(Number(pofsId) !== displayingPofs.id){
+            loadPofsFullShot(pofsId);
+        }
     }else{
         //
     }
