@@ -92,7 +92,7 @@ function trySelectPofs(pofsId){
             loadPofsFullShot(pofsId);
         }
     }else{
-        //
+        loadPofsFullShot(pofsId);
     }
 }
 
