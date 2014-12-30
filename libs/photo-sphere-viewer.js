@@ -399,7 +399,7 @@ var PhotoSphereViewer = function (args) {
 			});
 
 			for (var dd in m_adjacents) {
-				var alpha = d[dd];
+				var alpha = m_adjacents[dd];
 
 				var arrowMesh = new THREE.Mesh(arrowGeometry, mmm);
 				arrowMesh.targetArrowId = dd;
@@ -459,8 +459,8 @@ var PhotoSphereViewer = function (args) {
 		evt.preventDefault();
 		startMove(parseInt(evt.clientX), parseInt(evt.clientY));
 
-		mouseX = ( event.clientX / window.innerWidth ) * 2 - 1;
-		mouseY = -( event.clientY / window.innerHeight ) * 2 + 1;
+		mouseX = ( event.clientX / m_renderer.domElement.innerWidth ) * 2 - 1;
+		mouseY = -( event.clientY / m_renderer.domElement.innerHeight ) * 2 + 1;
 		click();
 	}
 
@@ -524,8 +524,8 @@ var PhotoSphereViewer = function (args) {
 		evt.preventDefault();
 		move(parseInt(evt.clientX), parseInt(evt.clientY));
 
-		mouseX = ( event.clientX / window.innerWidth ) * 2 - 1;
-		mouseY = -( event.clientY / window.innerHeight ) * 2 + 1;
+		mouseX = ( event.clientX / m_renderer.domElement.innerWidth ) * 2 - 1;
+		mouseY = -( event.clientY / m_renderer.domElement.innerHeight ) * 2 + 1;
 	}
 
 	/**
@@ -539,8 +539,8 @@ var PhotoSphereViewer = function (args) {
 			evt.preventDefault();
 			move(parseInt(touch.clientX), parseInt(touch.clientY));
 
-			mouseX = ( event.clientX / window.innerWidth ) * 2 - 1;
-			mouseY = -( event.clientY / window.innerHeight ) * 2 + 1;
+			mouseX = ( event.clientX / m_renderer.domElement.innerWidth ) * 2 - 1;
+			mouseY = -( event.clientY / m_renderer.domElement.innerHeight ) * 2 + 1;
 		}
 	}
 
