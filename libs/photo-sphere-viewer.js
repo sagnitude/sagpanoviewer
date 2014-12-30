@@ -325,7 +325,7 @@ var PhotoSphereViewer = function (args) {
 				spriteObject.position.set(spriteX, spriteY, spriteZ);
 				spriteObject.scale.set(5, 5, 1.0);
 				sceneSprite.add(spriteObject);
-                spriteObject.rotateY(interangle - Math.PI / 2);
+                spriteObject.rotateY(interangle + Math.PI / 2);
 			}
 		}
 
@@ -405,7 +405,7 @@ var PhotoSphereViewer = function (args) {
 			});
 
 			for (var dd in m_adjacents) {
-				var alpha = m_adjacents[dd];
+				var alpha = Math.PI + m_adjacents[dd];
 
 				var arrowMesh = new THREE.Mesh(arrowGeometry, mmm);
 				arrowMesh.targetArrowId = dd;
