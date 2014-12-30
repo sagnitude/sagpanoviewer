@@ -32,12 +32,12 @@
  * - theta_offset (integer) (optional) (1440) The PI fraction to add to theta in the animation
  * - loading_img (string) (optional) (null) Loading image URL or path (absolute or relative)
  **/
-var PhotoSphereViewer = function(args) {
+var PhotoSphereViewer = function (args) {
 	/**
 	 * Detects whether canvas is supported
 	 * @return (boolean) true if canvas is supported, false otherwise
 	 **/
-	var isCanvasSupported = function() {
+	var isCanvasSupported = function () {
 		var canvas = document.createElement('canvas');
 		return !!(canvas.getContext && canvas.getContext('2d'));
 	}
@@ -46,7 +46,7 @@ var PhotoSphereViewer = function(args) {
 	 * Detects whether WebGL is supported
 	 * @return (boolean) true if WebGL is supported, false otherwise
 	 **/
-	var isWebGLSupported = function() {
+	var isWebGLSupported = function () {
 		var canvas = document.createElement('canvas');
 		return !!(window.WebGLRenderingContext && canvas.getContext('webgl'));
 	}
@@ -58,18 +58,18 @@ var PhotoSphereViewer = function(args) {
 	 * @param f (Function) The handler function
 	 * @return (void)
 	 **/
-	var attachEvent = function(elt, evt, f) {
+	var attachEvent = function (elt, evt, f) {
 		if (elt.addEventListener)
 			elt.addEventListener(evt, f, false);
 		else
-			elt.attachEvent('on'+evt, f);
+			elt.attachEvent('on' + evt, f);
 	}
 
 	/**
 	 * Start loading panorama
 	 * @return (void)
 	 **/
-	var startLoading = function() {
+	var startLoading = function () {
 		// Loading indicator (text or image if given)
 		if (m_loading_img != null) {
 			var loading = document.createElement('img');
@@ -107,8 +107,8 @@ var PhotoSphereViewer = function(args) {
 	 * @param attr (string) The wanted attribute
 	 * @return (string) The value of the attribute
 	 **/
-	var getAttribute = function(data, attr) {
-		var a = data.indexOf('GPano:'+attr) + attr.length + 8, b = data.indexOf('"', a);
+	var getAttribute = function (data, attr) {
+		var a = data.indexOf('GPano:' + attr) + attr.length + 8, b = data.indexOf('"', a);
 		return data.substring(a, b);
 	}
 
@@ -116,7 +116,7 @@ var PhotoSphereViewer = function(args) {
 	 * Loads the EXIF data with AJAX
 	 * @return (void)
 	 **/
-	var loadEXIF = function() {
+	var loadEXIF = function () {
 		//var xhr = null;
 		//if (window.XMLHttpRequest)
 		//	xhr = new XMLHttpRequest();
@@ -132,19 +132,19 @@ var PhotoSphereViewer = function(args) {
 		//	m_container.textContent = 'XHR is not supported, update your browser!';
 		//	return;
 		//}
-        //
+		//
 		//xhr.onreadystatechange = function() {
 		//		if (xhr.readyState == 4 && xhr.status == 200) {
 		//			// Metadata
 		//			var binary = xhr.responseText;
 		//			var a = binary.indexOf('<x:xmpmeta'), b = binary.indexOf('</x:xmpmeta>');
-        //
+		//
 		//			// No data retrieved
 		//			if (a == -1 || b == -1) {
 		//				m_container.textContent = 'This is not a Photo Sphere panorama!';
 		//				return;
 		//			}
-        //
+		//
 		//			// Useful values
 		//			var data = binary.substring(a, b);
 		//			var full_width = parseInt(getAttribute(data, 'FullPanoWidthPixels'));
@@ -153,7 +153,7 @@ var PhotoSphereViewer = function(args) {
 		//			var cropped_height = parseInt(getAttribute(data, 'CroppedAreaImageHeightPixels'));
 		//			var cropped_x = parseInt(getAttribute(data, 'CroppedAreaLeftPixels'));
 		//			var cropped_y = parseInt(getAttribute(data, 'CroppedAreaTopPixels'));
-        //
+		//
 		//			//HACK
 		//			full_width = 2048;
 		//			full_height = 1024;
@@ -161,11 +161,11 @@ var PhotoSphereViewer = function(args) {
 		//			cropped_height = 1024;
 		//			cropped_x = 0;
 		//			cropped_y = 0;
-        //
+		//
 		//			createBuffer(full_width, full_height, cropped_width, cropped_height, cropped_x, cropped_y);
 		//		}
 		//	};
-        //
+		//
 		//xhr.open('GET', m_panorama, true);
 		//xhr.send(null);
 
@@ -184,38 +184,38 @@ var PhotoSphereViewer = function(args) {
 	 * Creates an image in the right dimensions
 	 * @return (void)
 	 **/
-	var createBuffer = function(full_width, full_height, cropped_width, cropped_height, cropped_x, cropped_y) {
+	var createBuffer = function (full_width, full_height, cropped_width, cropped_height, cropped_x, cropped_y) {
 		var img = new Image();
 
-		img.onload = function() {
-				// Resize image for mobile compatibility
-				var max_width = 2048;
-				if (isWebGLSupported()) {
-					var canvas = document.createElement('canvas');
-					var ctx = canvas.getContext('webgl');
-					max_width = ctx.getParameter(ctx.MAX_TEXTURE_SIZE);
-				}
+		img.onload = function () {
+			// Resize image for mobile compatibility
+			var max_width = 2048;
+			if (isWebGLSupported()) {
+				var canvas = document.createElement('canvas');
+				var ctx = canvas.getContext('webgl');
+				max_width = ctx.getParameter(ctx.MAX_TEXTURE_SIZE);
+			}
 
-				var new_width = Math.min(full_width, max_width);
-				var r = new_width / full_width;
-				full_width = new_width;
-				cropped_width *= r;
-				cropped_x *= r;
-				img.width = cropped_width;
+			var new_width = Math.min(full_width, max_width);
+			var r = new_width / full_width;
+			full_width = new_width;
+			cropped_width *= r;
+			cropped_x *= r;
+			img.width = cropped_width;
 
-				full_height *= r;
-				cropped_height *= r;
-				cropped_y *= r;
-				img.height = cropped_height;
+			full_height *= r;
+			cropped_height *= r;
+			cropped_y *= r;
+			img.height = cropped_height;
 
-				var buffer = document.createElement('canvas');
-				buffer.width = full_width;
-				buffer.height = full_height;
-				var ctx = buffer.getContext('2d');
+			var buffer = document.createElement('canvas');
+			buffer.width = full_width;
+			buffer.height = full_height;
+			var ctx = buffer.getContext('2d');
 
-				ctx.drawImage(img, cropped_x, cropped_y, cropped_width, cropped_height);
-				loadTexture(buffer.toDataURL('image/png'));
-			};
+			ctx.drawImage(img, cropped_x, cropped_y, cropped_width, cropped_height);
+			loadTexture(buffer.toDataURL('image/png'));
+		};
 
 		img.src = m_panorama;
 		img.crossOrigin = "anonymous";
@@ -227,11 +227,11 @@ var PhotoSphereViewer = function(args) {
 	 * @param path (URL) Path to the panorama
 	 * @return (void)
 	 **/
-	var loadTexture = function(path) {
+	var loadTexture = function (path) {
 		var texture = new THREE.Texture();
 		var loader = new THREE.ImageLoader();
 
-		var onLoad = function(img) {
+		var onLoad = function (img) {
 			texture.needsUpdate = true;
 			texture.image = img;
 			createScene(texture);
@@ -244,14 +244,14 @@ var PhotoSphereViewer = function(args) {
 	 * @param texture (THREE.Texture) The sphere texture
 	 * @return (void)
 	 **/
-	var createScene = function(texture) {
+	var createScene = function (texture) {
 		// The chosen renderer depends on if WebGL is supported or not
 		m_renderer = (isWebGLSupported()) ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
 		m_renderer.setSize(m_width, m_height);
 
 		m_scene = new THREE.Scene();
 
-		m_camera = new THREE.PerspectiveCamera(m_fov, m_ratio, 1, 300);
+		window.tcamera = m_camera = window.tcamera || new THREE.PerspectiveCamera(m_fov, m_ratio, 1, 300);
 		m_camera.position.set(0, 0, 0);
 		m_scene.add(m_camera);
 
@@ -265,6 +265,155 @@ var PhotoSphereViewer = function(args) {
 		//lines
 		//var op = m_curves.op;
 		//var shape = m_curves.shape;
+		//.LLLLLL...............OOOOOOO...........AAAAA.......DDDDDDDDDDD.....
+		//.LLLLLL.............OOOOOOOOOOO........AAAAAAA......DDDDDDDDDDDDD...
+		//.LLLLLL............OOOOOOOOOOOOO.......AAAAAAA......DDDDDDDDDDDDDD..
+		//.LLLLLL............OOOOO...OOOOO......AAAAAAAAA.....DDDDD...DDDDDDD.
+		//.LLLLLL...........OOOOO.....OOOOO.....AAAAAAAAA.....DDDDD....DDDDDD.
+		//.LLLLLL...........OOOOO.....OOOOO.....AAAAAAAAA.....DDDDD....DDDDDD.
+		//.LLLLLL...........OOOOO.....OOOOO....AAAA...AAAA....DDDDD.....DDDDD.
+		//.LLLLLL...........OOOOO.....OOOOO....AAAA...AAAA....DDDDD.....DDDDD.
+		//.LLLLLL...........OOOOO.....OOOOO....AAAAAAAAAAA....DDDDD....DDDDDD.
+		//.LLLLLL...........OOOOO.....OOOOO...AAAAAAAAAAAAA...DDDDD....DDDDDD.
+		//.LLLLLL............OOOOO...OOOOO....AAAAAAAAAAAAA...DDDDD...DDDDDD..
+		//.LLLLLLLLLLLLLLL...OOOOOOOOOOOOO....AAAA.....AAAA...DDDDDDDDDDDDDD..
+		//.LLLLLLLLLLLLLLL....OOOOOOOOOOO....AAAAA.....AAAAA..DDDDDDDDDDDDD...
+		//.LLLLLLLLLLLLLLL......OOOOOOO......AAAA.......AAAA..DDDDDDDDDDD.....
+		projector = new THREE.Projector();
+
+		sceneArrow = new THREE.Scene();
+		sceneArrow.add(new THREE.AmbientLight(0x7f7f7f));
+		var light1 = new THREE.DirectionalLight(0xffffff, 0.5);
+		light1.position.set(1, 1, 1);
+		sceneArrow.add(light1);
+
+		sceneSprite = new THREE.Scene();
+		var circleTexture = THREE.ImageUtils.loadTexture('imgs/circle.png', THREE.UVMapping, function () {
+			render();
+		});
+
+		{
+			var pofsList = [{shape: [1.5, 1.5, 1.6, 1.5, 1.6, 1.6, 1.5, 1.6]}, {shape: [1, 1.5, 1.1, 1.5, 1.1, 1.6, 1, 1.5]}];
+			for (var pi in pofsList) {
+				var shape = pofsList[pi].shape;
+				var minX = 100, maxX = -100, minY = 100, maxY = -100;
+				for (var i = 0; i < shape.length; i += 2) {
+					var x = shape[i + 0], y = shape[i + 1];
+					if (x > maxX) maxX = x;
+					if (x < minX) minX = x;
+					if (y > maxY) maxY = y;
+					if (y < minY) minY = y;
+				}
+				var midX = (minX + maxX) / 2, midY = (minY + maxY) / 2;
+				midY = Math.PI / 2 - midY;
+				const spriteR = 100;
+				var spriteX = spriteR * Math.cos(midY) * Math.cos(midX);
+				var spriteY = spriteR * Math.sin(midY);
+				var spriteZ = spriteR * Math.cos(midY) * Math.sin(midX);
+
+				var circleMaterial = new THREE.SpriteMaterial({
+					map: circleTexture,
+					useScreenCoordinates: false,
+					color: 0xffffff
+				});
+				var spriteObject = new THREE.Sprite(circleMaterial);
+				spriteObject.position.set(spriteX, spriteY, spriteZ);
+				spriteObject.scale.set(5, 5, 1.0);
+				sceneSprite.add(spriteObject);
+			}
+		}
+
+		{
+			var arrowPosition = [
+				[2, 0, 0], [0, 0, 2], [0, 0, 1], [-2, 0, 1], [-2, 0, 0], [-2, 0, 0], [-2, 0, -1], [0, 0, -1], [0, 0, -2], [2, 0, 0],
+				[2, 1.5, 0], [0, 1.0, 2], [0, 1.25, 1], [-2, 1.25, 1], [-2, 1.5, 0], [-2, 1.5, 0], [-2, 1.25, -1], [0, 1.25, -1], [0, 1, -2], [2, 1.5, 0],
+
+				[2, 0, 0], [0, 0, 2], [2, 1.5, 0], [0, 1.0, 2],
+				[0, 0, 2], [0, 0, 1], [0, 1.0, 2], [0, 1.25, 1],
+				[0, 0, 1], [-2, 0, 1], [0, 1.25, 1], [-2, 1.25, 1],
+				[-2, 0, 1], [-2, 0, 0], [-2, 1.25, 1], [-2, 1.5, 0],
+				[-2, 0, 0], [-2, 0, -1], [-2, 1.5, 0], [-2, 1.25, -1],
+				[-2, 0, -1], [0, 0, -1], [-2, 1.25, -1], [0, 1.25, -1],
+				[0, 0, -1], [0, 0, -2], [0, 1.25, -1], [0, 1.0, -2],
+				[0, 0, -2], [2, 0, 0], [0, 1.0, -2], [2, 1.5, 0]
+			];
+
+			var arrowNormal = [
+				[0, -1, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0], [0, -1, 0],
+				[0, 0.9701, 0.2425], [0, 0.9701, 0.2425], [0, 0.9701, 0.2425], [0, 0.9701, 0.2425], [0, 0.9701, 0.2425],
+				[0, 0.9701, -0.2425], [0, 0.9701, -0.2425], [0, 0.9701, -0.2425], [0, 0.9701, -0.2425], [0, 0.9701, -0.2425],
+
+				[0.707, 0, 0.707], [0.707, 0, 0.707], [0.707, 0, 0.707], [0.707, 0, 0.707],
+				[-1, 0, 0], [-1, 0, 0], [-1, 0, 0], [-1, 0, 0],
+				[0, 0, 1], [0, 0, 1], [0, 0, 1], [0, 0, 1],
+				[-1, 0, 0], [-1, 0, 0], [-1, 0, 0], [-1, 0, 0],
+				[-1, 0, 0], [-1, 0, 0], [-1, 0, 0], [-1, 0, 0],
+				[0, 0, -1], [0, 0, -1], [0, 0, -1], [0, 0, -1],
+				[-1, 0, 0], [-1, 0, 0], [-1, 0, 0], [-1, 0, 0],
+				[0.707, 0, -0.707], [0.707, 0, -0.707], [0.707, 0, -0.707], [0.707, 0, -0.707]
+			];
+
+			var arrowIndex = [
+				[0, 2, 1], [0, 4, 2], [2, 4, 3], [9, 7, 5], [5, 7, 6], [9, 8, 7],
+				[10, 12, 11], [10, 14, 12], [12, 14, 13], [19, 17, 15], [15, 17, 16], [19, 18, 17],
+
+				[20, 23, 21], [20, 22, 23],
+				[24, 27, 25], [24, 26, 27],
+				[28, 31, 29], [28, 30, 31],
+				[32, 35, 33], [32, 34, 35],
+				[36, 39, 37], [36, 38, 39],
+				[40, 43, 41], [40, 42, 43],
+				[44, 47, 45], [44, 46, 47],
+				[48, 51, 49], [48, 50, 51]
+			];
+
+			var vertexCount = 52, triangleCount = 28;
+
+			var arrowGeometry = new THREE.BufferGeometry();
+
+			var positionArray = new Float32Array(vertexCount * 3);
+			var normalsArray = new Float32Array(vertexCount * 3);
+			var indexArray = new Uint16Array(triangleCount * 3);
+
+			for (var v = 0; v < vertexCount; v++) {
+				positionArray[v * 3 + 0] = arrowPosition[v][0];
+				positionArray[v * 3 + 1] = arrowPosition[v][1];
+				positionArray[v * 3 + 2] = arrowPosition[v][2];
+				normalsArray[v * 3 + 0] = arrowNormal[v][0];
+				normalsArray[v * 3 + 1] = arrowNormal[v][1];
+				normalsArray[v * 3 + 2] = arrowNormal[v][2];
+			}
+			for (var t = 0; t < triangleCount; t++) {
+				indexArray[t * 3 + 0] = arrowIndex[t][0];
+				indexArray[t * 3 + 1] = arrowIndex[t][1];
+				indexArray[t * 3 + 2] = arrowIndex[t][2];
+			}
+
+			arrowGeometry.addAttribute('position', new THREE.BufferAttribute(positionArray, 3));
+			arrowGeometry.addAttribute('normal', new THREE.BufferAttribute(normalsArray, 3));
+			arrowGeometry.addAttribute('index', new THREE.BufferAttribute(indexArray, 1));
+
+			var mmm = new THREE.MeshPhongMaterial({
+				color: 0xFF47A3, ambient: 0xFF47A3, specular: 0xFF47A3, shininess: 250,
+				side: THREE.DoubleSide
+			});
+
+			const d = [{alpha: 0.2, id: 123}, {alpha: 0.7, id: 456}];
+
+			for (var dd in d) {
+				var alpha = d[dd].alpha;
+				var id = d[dd].id;
+
+				var arrowMesh = new THREE.Mesh(arrowGeometry, mmm);
+				arrowMesh.targetArrowId = id;
+
+				arrowMesh.position.set(100 * Math.cos(alpha), -50, 100 * Math.sin(alpha));
+				arrowMesh.rotateY(-alpha);
+				arrowMesh.scale.set(10, 10, 10);
+				sceneArrow.add(arrowMesh);
+			}
+
+		}
 
 
 		// Adding events
@@ -291,7 +440,7 @@ var PhotoSphereViewer = function(args) {
 	 * Resize the canvas when the window is resized
 	 * @return (void)
 	 **/
-	var onResize = function() {
+	var onResize = function () {
 		if (m_container.offsetWidth != m_width || m_container.offsetHeight != m_height) {
 			m_width = m_container.offsetWidth;
 			m_height = m_container.offsetHeight;
@@ -309,9 +458,13 @@ var PhotoSphereViewer = function(args) {
 	 * @param evt (Event) The event
 	 * @return (void)
 	 **/
-	var onMouseDown = function(evt) {
+	var onMouseDown = function (evt) {
 		evt.preventDefault();
 		startMove(parseInt(evt.clientX), parseInt(evt.clientY));
+
+		mouseX = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouseY = -( event.clientY / window.innerHeight ) * 2 + 1;
+		click();
 	}
 
 	/**
@@ -319,7 +472,7 @@ var PhotoSphereViewer = function(args) {
 	 * @param evt (Event) The event
 	 * @return (void)
 	 **/
-	var onTouchStart = function(evt) {
+	var onTouchStart = function (evt) {
 		var touch = evt.changedTouches[0];
 		if (touch.target.parentNode == m_container) {
 			evt.preventDefault();
@@ -333,7 +486,7 @@ var PhotoSphereViewer = function(args) {
 	 * @param y (integer) Vertical coordinate
 	 * @return (void)
 	 **/
-	var startMove = function(x, y) {
+	var startMove = function (x, y) {
 		m_mouse_x = x;
 		m_mouse_y = y;
 		clearTimeout(m_timeout);
@@ -345,20 +498,37 @@ var PhotoSphereViewer = function(args) {
 	 * @param evt (Event) The event
 	 * @return (void)
 	 **/
-	var onMouseUp = function(evt) {
+	var onMouseUp = function (evt) {
 		evt.preventDefault();
 		m_mousedown = false;
 		anim();
 	}
 
+	//.MMMMM.....MMMMM......OOOOOOO......VVVVV.....VVVVV..EEEEEEEEEEEEEEE.
+	//.MMMMM.....MMMMM....OOOOOOOOOOO....VVVVV.....VVVVV..EEEEEEEEEEEEEEE.
+	//.MMMMMM...MMMMMM...OOOOOOOOOOOOO...VVVVVV...VVVVVV..EEEEEEEEEEEEEEE.
+	//.MMMMMM...MMMMMM...OOOOO...OOOOO....VVVVV...VVVVV...EEEEE...........
+	//.MMMMMMM.MMMMMMM..OOOOO.....OOOOO...VVVVV...VVVVV...EEEEE...........
+	//.MMMMMMM.MMMMMMM..OOOOO.....OOOOO...VVVVVV.VVVVVV...EEEEEEEEEEEEEEE.
+	//.MMMMMMMMMMMMMMM..OOOOO.....OOOOO....VVVVV.VVVVV....EEEEEEEEEEEEEEE.
+	//.MMM.MMMMMMM.MMM..OOOOO.....OOOOO....VVVVV.VVVVV....EEEEEEEEEEEEEEE.
+	//.MMM.MMMMMMM.MMM..OOOOO.....OOOOO....VVVVVVVVVVV....EEEEE...........
+	//.MMM..MMMMM..MMM..OOOOO.....OOOOO.....VVVVVVVVV.....EEEEE...........
+	//.MMM..MMMMM..MMM...OOOOO...OOOOO......VVVVVVVVV.....EEEEE...........
+	//.MMM...MMM...MMM...OOOOOOOOOOOOO......VVVVVVVVV.....EEEEEEEEEEEEEEE.
+	//.MMM...MMM...MMM....OOOOOOOOOOO........VVVVVVV......EEEEEEEEEEEEEEE.
+	//.MMM....M....MMM......OOOOOOO..........VVVVVVV......EEEEEEEEEEEEEEE.
 	/**
 	 * The user moves the image
 	 * @param evt (Event) The event
 	 * @return (void)
 	 **/
-	var onMouseMove = function(evt) {
+	var onMouseMove = function (evt) {
 		evt.preventDefault();
 		move(parseInt(evt.clientX), parseInt(evt.clientY));
+
+		mouseX = ( event.clientX / window.innerWidth ) * 2 - 1;
+		mouseY = -( event.clientY / window.innerHeight ) * 2 + 1;
 	}
 
 	/**
@@ -366,11 +536,14 @@ var PhotoSphereViewer = function(args) {
 	 * @param evt (Event) The event
 	 * @return (void)
 	 **/
-	var onTouchMove = function(evt) {
+	var onTouchMove = function (evt) {
 		var touch = evt.changedTouches[0];
 		if (touch.target.parentNode == m_container) {
 			evt.preventDefault();
 			move(parseInt(touch.clientX), parseInt(touch.clientY));
+
+			mouseX = ( event.clientX / window.innerWidth ) * 2 - 1;
+			mouseY = -( event.clientY / window.innerHeight ) * 2 + 1;
 		}
 	}
 
@@ -380,12 +553,12 @@ var PhotoSphereViewer = function(args) {
 	 * @param y (integer) Vertical coordinate
 	 * @return (void)
 	 **/
-	var move = function(x, y) {
+	var move = function (x, y) {
 		if (m_mousedown) {
 			m_theta += (x - m_mouse_x) * Math.PI / 360.0;
-			m_theta -= Math.floor(m_theta / (2.0*Math.PI)) * 2.0*Math.PI;
+			m_theta -= Math.floor(m_theta / (2.0 * Math.PI)) * 2.0 * Math.PI;
 			m_phi += (y - m_mouse_y) * Math.PI / 180.0;
-			m_phi = Math.min(Math.PI/2.0, Math.max(-Math.PI/2.0, m_phi));
+			m_phi = Math.min(Math.PI / 2.0, Math.max(-Math.PI / 2.0, m_phi));
 
 			m_mouse_x = x;
 			m_mouse_y = y;
@@ -398,7 +571,7 @@ var PhotoSphereViewer = function(args) {
 	 * @param evt (Event) The event
 	 * @return (void)
 	 **/
-	var onMouseWheel = function(evt) {
+	var onMouseWheel = function (evt) {
 		var delta = (evt.detail) ? -evt.detail : evt.wheelDelta;
 		if (delta != 0) {
 			var direction = parseInt(delta / Math.abs(delta));
@@ -411,25 +584,43 @@ var PhotoSphereViewer = function(args) {
 		}
 	}
 
+	//.RRRRRRRRRRRR.....EEEEEEEEEEEEEEE..NNNNNN....NNNNN..DDDDDDDDDDD......EEEEEEEEEEEEEEE..RRRRRRRRRRRR....
+	//.RRRRRRRRRRRRR....EEEEEEEEEEEEEEE..NNNNNN....NNNNN..DDDDDDDDDDDDD....EEEEEEEEEEEEEEE..RRRRRRRRRRRRR...
+	//.RRRRRRRRRRRRRR...EEEEEEEEEEEEEEE..NNNNNNN...NNNNN..DDDDDDDDDDDDDD...EEEEEEEEEEEEEEE..RRRRRRRRRRRRRR..
+	//.RRRRR...RRRRRR...EEEEE............NNNNNNNN..NNNNN..DDDDD...DDDDDDD..EEEEE............RRRRR...RRRRRR..
+	//.RRRRR...RRRRRR...EEEEE............NNNNNNNN..NNNNN..DDDDD....DDDDDD..EEEEE............RRRRR...RRRRRR..
+	//.RRRRR...RRRRRR...EEEEEEEEEEEEEEE..NNNNNNNNN.NNNNN..DDDDD....DDDDDD..EEEEEEEEEEEEEEE..RRRRR...RRRRRR..
+	//.RRRRRRRRRRRRR....EEEEEEEEEEEEEEE..NNNNNNNNN.NNNNN..DDDDD.....DDDDD..EEEEEEEEEEEEEEE..RRRRRRRRRRRRR...
+	//.RRRRRRRRRRRR.....EEEEEEEEEEEEEEE..NNNNN.NNNNNNNNN..DDDDD.....DDDDD..EEEEEEEEEEEEEEE..RRRRRRRRRRRR....
+	//.RRRRR.RRRRRR.....EEEEE............NNNNN.NNNNNNNNN..DDDDD....DDDDDD..EEEEE............RRRRR.RRRRRR....
+	//.RRRRR..RRRRRR....EEEEE............NNNNN..NNNNNNNN..DDDDD....DDDDDD..EEEEE............RRRRR..RRRRRR...
+	//.RRRRR..RRRRRR....EEEEE............NNNNN..NNNNNNNN..DDDDD...DDDDDD...EEEEE............RRRRR..RRRRRR...
+	//.RRRRR...RRRRRR...EEEEEEEEEEEEEEE..NNNNN...NNNNNNN..DDDDDDDDDDDDDD...EEEEEEEEEEEEEEE..RRRRR...RRRRRR..
+	//.RRRRR....RRRRRR..EEEEEEEEEEEEEEE..NNNNN....NNNNNN..DDDDDDDDDDDDD....EEEEEEEEEEEEEEE..RRRRR....RRRRRR.
+	//.RRRRR.....RRRRR..EEEEEEEEEEEEEEE..NNNNN....NNNNNN..DDDDDDDDDDD......EEEEEEEEEEEEEEE..RRRRR.....RRRRR.
 	/**
 	 * Renders an image
 	 * @return (void)
 	 **/
-	var render = function() {
+	var render = function () {
 		var point = new THREE.Vector3();
 		point.setX(Math.cos(m_phi) * Math.sin(m_theta));
 		point.setY(Math.sin(m_phi));
 		point.setZ(Math.cos(m_phi) * Math.cos(m_theta));
 
+		m_renderer.autoClear = false;
+		m_renderer.clear();
 		m_camera.lookAt(point);
 		m_renderer.render(m_scene, m_camera);
+		if (sceneSprite) m_renderer.render(sceneSprite, m_camera);
+		if (sceneArrow) m_renderer.render(sceneArrow, m_camera);
 	}
 
 	/**
 	 * Automatically animates the panorama
 	 * @return (void)
 	 **/
-	var anim = function() {
+	var anim = function () {
 		if (m_anim !== false && hasAnime) {
 			clearTimeout(m_timeout);
 			m_timeout = setTimeout(rotate, m_anim);
@@ -440,13 +631,13 @@ var PhotoSphereViewer = function(args) {
 	 * Rotates the panorama
 	 * @return (void)
 	 **/
-	var rotate = function() {
+	var rotate = function () {
 		// Returns to the equator
 		m_phi -= m_phi / 200;
 
 		// Rotates the sphere
 		m_theta += m_theta_offset;
-		m_theta -= Math.floor(m_theta / (2.0*Math.PI)) * 2.0*Math.PI;
+		m_theta -= Math.floor(m_theta / (2.0 * Math.PI)) * 2.0 * Math.PI;
 
 		render();
 		m_timeout = setTimeout(rotate, PSV_ANIM_TIMEOUT);
@@ -457,7 +648,7 @@ var PhotoSphereViewer = function(args) {
 	 * @param speed (string) The speed, in radians/degrees/revolutions per second/minute
 	 * @return (void)
 	 **/
-	var setAnimSpeed = function(speed) {
+	var setAnimSpeed = function (speed) {
 		speed = speed.toString().trim();
 
 		// Speed extraction
@@ -568,4 +759,60 @@ var PhotoSphereViewer = function(args) {
 	var m_timeout = null;
 
 	startLoading();
+
+	//....SSSSSSSSSSS.......CCCCCCCCC....EEEEEEEEEEEEEEE..NNNNNN....NNNNN..EEEEEEEEEEEEEEE.
+	//..SSSSSSSSSSSSSS.....CCCCCCCCCCC...EEEEEEEEEEEEEEE..NNNNNN....NNNNN..EEEEEEEEEEEEEEE.
+	//.SSSSSSSSSSSSSSS....CCCCCCCCCCCCC..EEEEEEEEEEEEEEE..NNNNNNN...NNNNN..EEEEEEEEEEEEEEE.
+	//.SSSSSSS....SSSS...CCCCCC...CCCCC..EEEEE............NNNNNNNN..NNNNN..EEEEE...........
+	//.SSSSSSS..........CCCCC......CCCC..EEEEE............NNNNNNNN..NNNNN..EEEEE...........
+	//..SSSSSSS.........CCCCC............EEEEEEEEEEEEEEE..NNNNNNNNN.NNNNN..EEEEEEEEEEEEEEE.
+	//...SSSSSSSS.......CCCCC............EEEEEEEEEEEEEEE..NNNNNNNNN.NNNNN..EEEEEEEEEEEEEEE.
+	//.....SSSSSSSS.....CCCCC............EEEEEEEEEEEEEEE..NNNNN.NNNNNNNNN..EEEEEEEEEEEEEEE.
+	//.......SSSSSSS....CCCCC............EEEEE............NNNNN.NNNNNNNNN..EEEEE...........
+	//........SSSSSSS...CCCCC......CCCC..EEEEE............NNNNN..NNNNNNNN..EEEEE...........
+	//.SSSS....SSSSSSS...CCCCCC...CCCCC..EEEEE............NNNNN..NNNNNNNN..EEEEE...........
+	//.SSSSSSSSSSSSSSS....CCCCCCCCCCCCC..EEEEEEEEEEEEEEE..NNNNN...NNNNNNN..EEEEEEEEEEEEEEE.
+	//.SSSSSSSSSSSSSS......CCCCCCCCCCC...EEEEEEEEEEEEEEE..NNNNN....NNNNNN..EEEEEEEEEEEEEEE.
+	//..SSSSSSSSSSS.........CCCCCCCCC....EEEEEEEEEEEEEEE..NNNNN....NNNNNN..EEEEEEEEEEEEEEE.
+	var sceneSprite, sceneTooltip, sceneArrow;
+	var projector, selectedSprite;
+	var tooltipCanvas, tooltipContext, tooltipTexture, tooltipSprite;
+	var mouseX, mouseY;
+
+	var click = function () {
+		var vector = new THREE.Vector3(mouseX, mouseY, 1);
+		vector.unproject(m_camera);
+		var ray = new THREE.Raycaster(m_camera.position, vector.sub(m_camera.position).normalize());
+
+		{
+			var spriteIntersects = ray.intersectObjects(sceneSprite.children);
+
+			if (spriteIntersects.length > 0) {
+				if (spriteIntersects[0].object != selectedSprite) {
+					if (selectedSprite)
+						selectedSprite.material.color.setHex(selectedSprite.currentHex);
+					selectedSprite = spriteIntersects[0].object;
+					selectedSprite.currentHex = selectedSprite.material.color.getHex();
+					selectedSprite.material.color.setHex(0x00ff00);
+				}
+			} else {
+				if (selectedSprite)
+					selectedSprite.material.color.setHex(selectedSprite.currentHex);
+				selectedSprite = null;
+			}
+		}
+
+		{
+			var arrowIntersects = ray.intersectObjects(sceneArrow.children);
+
+			if (arrowIntersects.length > 0) {
+				if (arrowIntersects[0].object.hasOwnProperty("targetArrowId")) {
+					console.log("jump to " + arrowIntersects[0].object.targetArrowId);
+					m_jumpCallBack(arrowIntersects[0].object.targetArrowId);
+				}
+			}
+		}
+
+		render();
+	}
 }
