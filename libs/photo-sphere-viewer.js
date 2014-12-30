@@ -560,8 +560,8 @@ var PhotoSphereViewer = function (args) {
 		if (m_mousedown) {
 			window.ttheta += (x - m_mouse_x) * Math.PI / 360.0;
 			window.ttheta -= Math.floor(window.ttheta / (2.0 * Math.PI)) * 2.0 * Math.PI;
-			m_phi += (y - m_mouse_y) * Math.PI / 180.0;
-			m_phi = Math.min(Math.PI / 2.0, Math.max(-Math.PI / 2.0, m_phi));
+			window.tphi += (y - m_mouse_y) * Math.PI / 180.0;
+			window.tphi = Math.min(Math.PI / 2.0, Math.max(-Math.PI / 2.0, window.tphi));
 
 			m_mouse_x = x;
 			m_mouse_y = y;
