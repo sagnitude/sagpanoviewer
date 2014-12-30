@@ -312,7 +312,7 @@ var PhotoSphereViewer = function (args) {
 				var midX = (minX + maxX) / 2, midY = (minY + maxY) / 2;
                 midX += interangle + Math.PI / 2;
 				midY = Math.PI / 2 - midY;
-				const spriteR = 100;
+				const spriteR = 150;
 				var spriteX = spriteR * Math.cos(midY) * Math.cos(midX);
 				var spriteY = spriteR * Math.sin(midY);
 				var spriteZ = spriteR * Math.cos(midY) * Math.sin(midX);
@@ -324,7 +324,7 @@ var PhotoSphereViewer = function (args) {
 				});
 				var spriteObject = new THREE.Sprite(circleMaterial);
 				spriteObject.position.set(spriteX, spriteY, spriteZ);
-				spriteObject.scale.set(5, 5, 1.0);
+				spriteObject.scale.set(8, 8, 1.0);
 				sceneSprite.add(spriteObject);
 			}
 		}
