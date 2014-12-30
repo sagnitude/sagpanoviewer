@@ -310,7 +310,7 @@ var PhotoSphereViewer = function (args) {
 					if (y < minY) minY = y;
 				}
 				var midX = (minX + maxX) / 2, midY = (minY + maxY) / 2;
-                midX += interangle + Math.PI / 2;
+                midX -= interangle + Math.PI / 2;
 				midY = Math.PI / 2 - midY;
 				const spriteR = 150;
 				var spriteX = spriteR * Math.cos(midY) * Math.cos(midX);
