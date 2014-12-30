@@ -252,8 +252,8 @@ var PhotoSphereViewer = function (args) {
 		m_scene = new THREE.Scene();
 
 		window.tcamera = m_camera = window.tcamera || new THREE.PerspectiveCamera(m_fov, m_ratio, 1, 300);
-		window.tphi = m_phi = m_phi || window.tphi;
-		window.ttheta = m_theta = m_theta || window.ttheta;
+		window.tphi = m_phi = m_phi || window.tphi || 0;
+		window.ttheta = m_theta = m_theta || window.ttheta || 0;
 		m_camera.position.set(0, 0, 0);
 		m_scene.add(m_camera);
 
