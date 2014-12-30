@@ -252,6 +252,8 @@ var PhotoSphereViewer = function (args) {
 		m_scene = new THREE.Scene();
 
 		window.tcamera = m_camera = window.tcamera || new THREE.PerspectiveCamera(m_fov, m_ratio, 1, 300);
+		window.tphi = m_phi = m_phi || window.tphi;
+		window.ttheta = m_theta = m_theta || window.ttheta;
 		m_camera.position.set(0, 0, 0);
 		m_scene.add(m_camera);
 
@@ -279,8 +281,6 @@ var PhotoSphereViewer = function (args) {
 		//.LLLLLLLLLLLLLLL...OOOOOOOOOOOOO....AAAA.....AAAA...DDDDDDDDDDDDDD..
 		//.LLLLLLLLLLLLLLL....OOOOOOOOOOO....AAAAA.....AAAAA..DDDDDDDDDDDDD...
 		//.LLLLLLLLLLLLLLL......OOOOOOO......AAAA.......AAAA..DDDDDDDDDDD.....
-		projector = new THREE.Projector();
-
 		sceneArrow = new THREE.Scene();
 		sceneArrow.add(new THREE.AmbientLight(0x7f7f7f));
 		var light1 = new THREE.DirectionalLight(0xffffff, 0.5);
@@ -398,14 +398,11 @@ var PhotoSphereViewer = function (args) {
 				side: THREE.DoubleSide
 			});
 
-			const d = [{alpha: 0.2, id: 123}, {alpha: 0.7, id: 456}];
-
-			for (var dd in d) {
-				var alpha = d[dd].alpha;
-				var id = d[dd].id;
+			for (var dd in m_adjacents) {
+				var alpha = d[dd];
 
 				var arrowMesh = new THREE.Mesh(arrowGeometry, mmm);
-				arrowMesh.targetArrowId = id;
+				arrowMesh.targetArrowId = dd;
 
 				arrowMesh.position.set(100 * Math.cos(alpha), -50, 100 * Math.sin(alpha));
 				arrowMesh.rotateY(-alpha);
@@ -775,7 +772,7 @@ var PhotoSphereViewer = function (args) {
 	//.SSSSSSSSSSSSSS......CCCCCCCCCCC...EEEEEEEEEEEEEEE..NNNNN....NNNNNN..EEEEEEEEEEEEEEE.
 	//..SSSSSSSSSSS.........CCCCCCCCC....EEEEEEEEEEEEEEE..NNNNN....NNNNNN..EEEEEEEEEEEEEEE.
 	var sceneSprite, sceneTooltip, sceneArrow;
-	var projector, selectedSprite;
+	var selectedSprite;
 	var tooltipCanvas, tooltipContext, tooltipTexture, tooltipSprite;
 	var mouseX, mouseY;
 
