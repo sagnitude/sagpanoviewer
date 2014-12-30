@@ -251,6 +251,8 @@ var PhotoSphereViewer = function (args) {
 
 		m_scene = new THREE.Scene();
 
+        var interangle = displayingPofs.fullShot.interAngle * Math.PI / 180;
+
 		window.tcamera = m_camera = window.tcamera || new THREE.PerspectiveCamera(m_fov, m_ratio, 1, 300);
 		window.tphi = m_phi = m_phi || window.tphi || 0;
 		window.ttheta = m_theta = m_theta || window.ttheta || 0;
@@ -262,7 +264,7 @@ var PhotoSphereViewer = function (args) {
 		var material = new THREE.MeshBasicMaterial({map: texture, overdraw: true});
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.scale.x = -1;
-        mesh.rotateY(displayingPofs.fullShot.interAngle - Math.PI / 2);
+        mesh.rotateY(interangle - Math.PI / 2);
 		m_scene.add(mesh);
 
 		//lines
@@ -287,6 +289,7 @@ var PhotoSphereViewer = function (args) {
 		var light1 = new THREE.DirectionalLight(0xffffff, 0.5);
 		light1.position.set(1, 1, 1);
 		sceneArrow.add(light1);
+
 
 		sceneSprite = new THREE.Scene();
 		var circleTexture = THREE.ImageUtils.loadTexture('imgs/circle.png', THREE.UVMapping, function () {
@@ -322,7 +325,7 @@ var PhotoSphereViewer = function (args) {
 				spriteObject.position.set(spriteX, spriteY, spriteZ);
 				spriteObject.scale.set(5, 5, 1.0);
 				sceneSprite.add(spriteObject);
-                spriteObject.rotateY(displayingPofs.fullShot.interAngle - Math.PI / 2);
+                spriteObject.rotateY(interangle - Math.PI / 2);
 			}
 		}
 
