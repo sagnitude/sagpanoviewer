@@ -251,11 +251,11 @@ var PhotoSphereViewer = function (args) {
 
 		m_scene = new THREE.Scene();
 
-        var interangle = displayingPofs.fullShot.interAngle * Math.PI / 180;
+        var interangle = -displayingPofs.fullShot.interAngle * Math.PI / 180;
 
 		window.tcamera = m_camera = window.tcamera || new THREE.PerspectiveCamera(m_fov, m_ratio, 1, 300);
-		window.tphi = m_phi = m_phi || window.tphi || 0;
-		window.ttheta = m_theta = m_theta || window.ttheta || 0;
+		window.tphi = window.tphi || 0;
+		window.ttheta = window.ttheta || 0;
 		m_camera.position.set(0, 0, 0);
 		m_scene.add(m_camera);
 
@@ -264,7 +264,7 @@ var PhotoSphereViewer = function (args) {
 		var material = new THREE.MeshBasicMaterial({map: texture, overdraw: true});
 		var mesh = new THREE.Mesh(geometry, material);
 		mesh.scale.x = -1;
-        mesh.rotateY(interangle - Math.PI / 2);
+        mesh.rotateY(interangle + Math.PI / 2);
 		m_scene.add(mesh);
 
 		//lines
@@ -558,8 +558,8 @@ var PhotoSphereViewer = function (args) {
 	 **/
 	var move = function (x, y) {
 		if (m_mousedown) {
-			m_theta += (x - m_mouse_x) * Math.PI / 360.0;
-			m_theta -= Math.floor(m_theta / (2.0 * Math.PI)) * 2.0 * Math.PI;
+			window.ttheta += (x - m_mouse_x) * Math.PI / 360.0;
+			window.ttheta -= Math.floor(window.ttheta / (2.0 * Math.PI)) * 2.0 * Math.PI;
 			m_phi += (y - m_mouse_y) * Math.PI / 180.0;
 			m_phi = Math.min(Math.PI / 2.0, Math.max(-Math.PI / 2.0, m_phi));
 
@@ -607,9 +607,9 @@ var PhotoSphereViewer = function (args) {
 	 **/
 	var render = function () {
 		var point = new THREE.Vector3();
-		point.setX(Math.cos(m_phi) * Math.sin(m_theta));
-		point.setY(Math.sin(m_phi));
-		point.setZ(Math.cos(m_phi) * Math.cos(m_theta));
+		point.setX(Math.cos(window.tphi) * Math.sin(window.ttheta));
+		point.setY(Math.sin(window.tphi));
+		point.setZ(Math.cos(window.tphi) * Math.cos(window.ttheta));
 
 		m_renderer.autoClear = false;
 		m_renderer.clear();
@@ -636,11 +636,11 @@ var PhotoSphereViewer = function (args) {
 	 **/
 	var rotate = function () {
 		// Returns to the equator
-		m_phi -= m_phi / 200;
+		window.tphi -= window.tphi / 200;
 
 		// Rotates the sphere
-		m_theta += m_theta_offset;
-		m_theta -= Math.floor(m_theta / (2.0 * Math.PI)) * 2.0 * Math.PI;
+		window.ttheta += window.ttheta_offset;
+		window.ttheta -= Math.floor(window.ttheta / (2.0 * Math.PI)) * 2.0 * Math.PI;
 
 		render();
 		m_timeout = setTimeout(rotate, PSV_ANIM_TIMEOUT);
@@ -757,7 +757,7 @@ var PhotoSphereViewer = function (args) {
 	// Some useful attributes
 	var m_width, m_height, m_ratio;
 	var m_renderer, m_scene, m_camera;
-	var m_fov = 60, m_phi = 0, m_theta = 0;
+	var m_fov = 60;
 	var m_mousedown = false, m_mouse_x = 0, m_mouse_y = 0;
 	var m_timeout = null;
 
