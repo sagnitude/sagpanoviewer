@@ -219,8 +219,8 @@ var PhotoSphereViewer = function (args) {
 			loadTexture(buffer.toDataURL('image/png'));
 		};
 
-		img.src = m_panorama;
 		img.crossOrigin = "anonymous";
+		img.src = m_panorama;
 		//img.src = m_src_url;
 	}
 
