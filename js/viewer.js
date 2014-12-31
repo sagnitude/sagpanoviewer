@@ -167,7 +167,7 @@ function getPofsListOfMall(mallId){
 
 function getMallWithFullShot(mallId){
     fetchActionJson(window.serverUrl + kGetMallWithFullShotActionUrl + "?mallId=" + mallId + "&operatorKey=" + operatorKey, function(result) {
-        handleExtractedMallObject(decodeActionRawData(result));
+        handleExtractedMallObject(JSON.parse(decodeActionRawData(result)));
     });
 }
 
