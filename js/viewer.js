@@ -6,8 +6,8 @@
 var allPofs, allFsPath, currentMall, floors, displayingPofs, psv;
 
 //constants
-//window.serverUrl = "http://www.navior.cn:6603/ids/";
-window.serverUrl = "http://demo.sagnitude.com/ids/";
+window.serverUrl = "http://www.navior.cn:6603/ids/";
+//window.serverUrl = "http://demo.sagnitude.com/ids/";
 window.dataServer = "http://www.indoorstar.com:6601/";
 window.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 window.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -187,9 +187,9 @@ function assembleGetMallWithFullShotActionUrl(mallId){
 }
 
 $(document).ready(function () {
-    //getMallWithFullShot(823);
+    getMallWithFullShot(823);
 
-    loadMallFromLocalFile("./small.json");
+    //loadMallFromLocalFile("./small.json");
 
 });
 
