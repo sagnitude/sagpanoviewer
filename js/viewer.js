@@ -20,15 +20,29 @@ var kListPofsOfMallActionUrl = "listPofsOfMall.action";
 var kGetMallWithFullShotActionUrl = "listMallWithFullShot.action";
 
 function fetchActionJson(url, cb){
-    $.get(url, function (data, status) {
-        if(data.s === 0){
-            var resultSet = data.d;
-            console.log(data.m);
-            return cb(resultSet);
-        }else{
-            console.log("Data fetch failed: ", data.m);
+    //$.get(url, function (data, status) {
+    //    if(data.s === 0){
+    //        var resultSet = data.d;
+    //        console.log(data.m);
+    //        return cb(resultSet);
+    //    }else{
+    //        console.log("Data fetch failed: ", data.m);
+    //    }
+    //}, "json");
+
+    $.ajax({
+        url: url,
+        type: 'PUT',
+        success: function(data, status){
+            if(data.s === 0){
+                var resultSet = data.d;
+                console.log(data.m);
+                return cb(resultSet);
+            }else{
+                console.log("Data fetch failed: ", data.m);
+            }
         }
-    }, "json");
+    });
 }
 
 function decodeActionRawData(rawData){
