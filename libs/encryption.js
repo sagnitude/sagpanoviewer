@@ -849,6 +849,9 @@ module.exports = window;
     module.zip_inflate = zip_inflate;
 })(module);
 
+var operatorKey = "FA07C1D5-800E-4065-8A40-7DD2D925C1A3";
+var decryptKey = "IDS12345";
+
 (function(module){
     /* Copyright (C) 1999 Masanao Izumo <iz@onicos.co.jp>
      * Version: 1.0.1

@@ -12,9 +12,6 @@ window.dataServer = "http://www.indoorstar.com:6601/";
 window.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 window.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
-var operatorKey = "FA07C1D5-800E-4065-8A40-7DD2D925C1A3";
-var decryptKey = "IDS12345";
-
 var kListPofsOfMallActionUrl = "listPofsOfMall.action";
 //var kListFsPathOfMallActionUrl = "listFsPathOfMall.action";
 var kGetMallWithFullShotActionUrl = "listMallWithFullShot.action";
@@ -196,57 +193,6 @@ $(document).ready(function () {
     loadMallFromLocalFile("./small.json");
     getMallWithFullShot(823);
 });
-
-function encodeSource(string){
-    //console.log("ENC-SRC: ", string);
-
-    var ar = s2a(string);
-    //console.log("INPUT AR: ", ar);
-
-    string = des(decryptKey, string, 1, 0);
-    //console.log("DES-ENC: ", string);
-
-    //string = utf16to8(string);
-    //console.log("INUTF8: ", string);
-
-    ar = s2a(string);
-    ar = da2ba(ar);
-    //console.log("IN BINARY STR: ", ba2s(ar));
-
-    ar = window.zip(result);
-    string = a2s(ar);
-    //console.log("GZIPPED: ", ar, " IN STRING ", string);
-
-    string = base64encode(string);
-    //console.log("B64ENCODED: ", string);
-
-    return string;
-}
-
-function decodeSource(string){
-    var result = string;
-    //console.log("SRC: ", result);
-
-    result = base64decode(result);
-    //console.log("B64DECODED: ", result);
-
-    var ar = s2a(result);
-    //console.log("TO AR: ", ar);
-
-    result = a2s(unzipArray(ar));
-    //console.log("UNGZIPPED: ", result, " AND IN AR: ", s2a(result));
-
-    //result = utf8to16(result);
-    //console.log("INUTF16: ", result);
-
-    result = des(decryptKey, result, 0, 0);
-    //console.log("UN-DES: ", result);
-
-    ar = s2a(result);
-    //console.log("UNDES AR: ", ar);
-
-    return result;
-}
 
 function mergeObject(o1, o2){
     for(var key in o2){
