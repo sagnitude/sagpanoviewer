@@ -75,6 +75,8 @@ function handleExtractedMallObject(mallObject){
 
     floors = unsortedFloors;
 
+    $('#accordion').html();
+
     for(var floor in floors){
         $('#accordion').append(getFloorElement(floors[floor]));
     }
