@@ -167,7 +167,7 @@ function getPofsListOfMall(mallId){
 
 function getMallWithFullShot(mallId){
     fetchActionJson(window.serverUrl + kGetMallWithFullShotActionUrl + "?mallId=" + mallId + "&operatorKey=" + operatorKey, function(result) {
-        handleExtractedMallObject(result);
+        handleExtractedMallObject(decodeActionRawData(result));
     });
 }
 
@@ -201,10 +201,8 @@ function assembleGetMallWithFullShotActionUrl(mallId){
 }
 
 $(document).ready(function () {
+    loadMallFromLocalFile("./small.json");
     getMallWithFullShot(823);
-
-    //loadMallFromLocalFile("./small.json");
-
 });
 
 function encodeSource(string){
