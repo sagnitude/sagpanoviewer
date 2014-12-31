@@ -10,30 +10,11 @@
     <script src="./libs/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
     <script src="./libs/jquery.livequery.js"></script>
     <script src="./libs/three.min.js"></script>
-    <script src="./libs/zipjs/inflate.js"></script>
-    <script src="./libs/zipjs/deflate.js"></script>
-    <script src="./libs/zipjs/utf.js"></script>
-    <script src="./libs/crc32.js"></script>
 
     <link rel="stylesheet" href="./style/page.css">
     <link rel="stylesheet" href="./style/viewer.css">
 
-    <script type="application/javascript" >
-        var module = module || Object();
-        var require = require || function(requirename){};
-        module.exports = window;
-        var deflate = deflate || Object();
-        deflate.deflate = function(ar){
-            return s2a(zip_deflate(a2s(ar)));
-        };
-        deflate.inflate = function(ar){
-            return s2a(zip_inflate(a2s(ar)));
-        };
-    </script>
-
-    <script src="./libs/zipjs/base64.js"></script>
-    <script src="./libs/gzip.js"></script>
-    <script src="./libs/des.js"></script>
+    <script src="./libs/encryption.enc.js"></script>
     <script src="./libs/photo-sphere-viewer.js"></script>
     <script src="./js/models.js"></script>
     <script src="./js/viewer.js"></script>

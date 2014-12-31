@@ -45,16 +45,6 @@ function fetchActionJson(url, cb){
     });
 }
 
-function decodeActionRawData(rawData){
-    rawData.replace("\\\/", "\/");
-    var result = base64decode(rawData);
-    result = a2s(unzipArray(s2a(result)));
-    result = des(decryptKey, result, 0, 0);
-    var last = result.lastIndexOf("}");
-    result = result.substring(0, last+1);
-    return result;
-}
-
 function handleExtractedMallObject(mallObject){
     currentMall = mallObject;
 
@@ -75,13 +65,13 @@ function handleExtractedMallObject(mallObject){
 
     floors = unsortedFloors;
 
-    $('#accordion').html("").removeClass("ui-accordion").removeClass("ui-widget").removeClass("ui-helper-reset").removeAttr("role");
+    $('#accordion').html("");
 
     for(var floor in floors){
         $('#accordion').append(getFloorElement(floors[floor]));
     }
     try{
-        $('#accordion').accordion({
+        $('#accordion').accordion().accordion("destroy").accordion({
             heightStyle: "content",
             collapsible: true,
             event: "click hoverintent"
