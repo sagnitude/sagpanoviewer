@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="panoViewer">
 <head>
     <meta charset="utf-8" />
     <title>Photo Sphere Viewer</title>
     <meta name="viewport" content="initial-scale=1.0" />
 
-    <link rel="stylesheet" href="./libs/jquery-ui-1.11.2.custom/jquery_smoothness.css">
-    <script src="./libs/jquery-1.11.2.min.js"></script>
-    <script src="./libs/jquery-ui-1.11.2.custom/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="./libs/bootstrap/css/bootstrap.min.css">
+    <script src="./libs/angularjs/angular.min.js"></script>
+    <script src="./libs/angularjs/angular-cookies.min.js"></script>
+    <script src="./libs/ui-bootstrap-tpls-0.12.0.min.js"></script>
     <script src="./libs/three.min.js"></script>
 
     <link rel="stylesheet" href="./style/page.css">
     <link rel="stylesheet" href="./style/viewer.css">
 
-    <script src="./libs/encryption.enc.js"></script>
     <script src="./libs/photo-sphere-viewer.js"></script>
-    <script src="./js/viewer.js"></script>
+    <script src="./js/viewer_angular.js"></script>
     <style>
         html, body {
             margin: 0;
@@ -32,10 +32,20 @@
 </head>
 
 <body>
-<div id="wrapper">
-    <div id="container"></div>
-    <div id="list_wrapper">
-        <div id="accordion"></div>
+<div id="wrapper" ng-controller="MainCtrl" class="row">
+    <div class="col-md-1" ng-controller="ListCtrl" id="listController">
+        <accordion close-others="true" id="pofsListContainer">
+            <accordion-group ng-repeat="x in floors | orderByObjectProperty:'level':true" heading="{{x.nm}}">
+                <table class="table-striped table pofsListTable table-bordered table-hover">
+                    <tr ng-repeat="p in x.pofs">
+                        <td><a href="#" class="load_pofs_trigger" ng-click="loadPicture(p.id)">{{p.id}}</a></td>
+                    </tr>
+                </table>
+            </accordion-group>
+        </accordion>
+    </div>
+    <div class="col-md-11" id="mainContainer" ng-controller="ViewCtrl">
+        <div id="container"></div>
     </div>
 </div>
 

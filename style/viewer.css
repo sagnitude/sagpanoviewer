@@ -1,61 +1,42 @@
-#wrapper{
-    width: 100%;
-    height: 100%;
+#pofsListContainer .panel-body{
+    padding: 0;
 }
 
-#list_wrapper{
-    width: 200px;
+#pofsListContainer .panel-heading a, .load_pofs_trigger{
+    display: block;
+    width: 100%;
+}
+
+#pofsListContainer .panel{
+    margin-top: 0!important;
+    border-radius: 0!important;
+}
+
+#mainContainer, #container{
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+    padding: 0;
+}
+
+.pofsListTable{
+    overflow: scroll;
+}
+
+#listContainer{
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+#listController{
+    height: 100%;
     background-color: white;
     overflow-y: scroll;
     overflow-x: hidden;
+    padding: 0;
 }
 
-#container{
-    position: absolute;
-    top: 0;
-    left: 200px;
+#wrapper{
+    width: 100%;
     height: 100%;
-    right: 0;
-}
-
-#pofs_table{
-    width: 100%;
-}
-
-#feedback {
-    font-size: 1.4em;
-}
-
-.pofs_icon_table .ui-selecting {
-    background: #FECA40;
-}
-
-.pofs_icon_table .ui-selected {
-    background: #F39814; color: white;
-}
-
-.pofs_icon_table {
-    list-style-type: none;
     margin: 0;
-    padding: 0;
-    width: 100%;
-}
-
-.pofs_icon_table li {
-    margin: 3px;
-    padding: 0.2em;
-    padding-left: 1em;
-    font-size: 1em;
-    height: 18px;
-}
-
-.ui-accordion .ui-accordion-content{
-    padding: 0;
-}
-.ui-accordion .ui-accordion-header{
-    padding: 0.3em 0 0.3em 2.2em;
 }

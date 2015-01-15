@@ -6,14 +6,14 @@
 var allPofs, allFsPath, currentMall, floors, displayingPofs, psv;
 
 //constants
-window.serverUrl = "http://www.navior.cn:6603/ids/";
+window.serverUrl = "http://www.indoorstar.com/ids/";
 //window.serverUrl = "http://demo.sagnitude.com/ids/";
 window.dataServer = "http://www.indoorstar.com:6601/";
 window.windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 window.windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 
 var kListPofsOfMallActionUrl = "listPofsOfMall.action";
-//var kListFsPathOfMallActionUrl = "listFsPathOfMall.action";
+var kListFsPathOfMallActionUrl = "listFsPathOfMall.action";
 var kGetMallWithFullShotActionUrl = "listMallWithFullShot.action";
 
 function fetchActionJson(url, cb){
@@ -29,7 +29,7 @@ function fetchActionJson(url, cb){
 
     $.ajax({
         url: url,
-        type: 'PUT',
+        type: 'GET',
         success: function(data, status){
             if(data.s === 0){
                 var resultSet = data.d;
@@ -146,11 +146,16 @@ function loadPictureFromUrl(fullShot, pofsId){
     });
 }
 
-//@deprecated
 function getPofsListOfMall(mallId){
     fetchActionJson(assembleListPofsActionUrl(mallId), function (result) {
-        allPofs = JSON.parse(decodeActionRawData(result));
+        allPofs = JSON.parse(result);
         fillPofsInTable();
+    });
+}
+
+function getFsPathListOfMall(mallId){
+    fetchActionJson(assembleListFsPathActionUrl(mallId), function (result) {
+        allFsPath = JSON.parse(result);
     });
 }
 
@@ -185,13 +190,19 @@ function assembleListPofsActionUrl(mallId){
     return window.serverUrl + kListPofsOfMallActionUrl + "?mallId=" + mallId + "&operatorKey=" + operatorKey;
 }
 
+function assembleListFsPathActionUrl(mallId){
+    return window.serverUrl + kListFsPathOfMallActionUrl + "?mallId=" + mallId;
+}
+
 function assembleGetMallWithFullShotActionUrl(mallId){
     return window.serverUrl + kGetMallWithFullShotActionUrl + "?mallId=" + mallId + "&operatorKey=" + operatorKey;
 }
 
 $(document).ready(function () {
     loadMallFromLocalFile("./small.json");
-    getMallWithFullShot(823);
+    //getMallWithFullShot(823);
+    //getPofsListOfMall(823);
+    //getFsPathListOfMall(823);
 });
 
 function mergeObject(o1, o2){
@@ -208,4 +219,4 @@ var Event = {
     removeHandler: function (oElement, sEvent, fnHandler) {
         oElement.removeEventListener ? oElement.removeEventListener(sEvent, fnHandler, false) : oElement.detachEvent("on" + sEvent, fnHandler)
     }
-}
+};
